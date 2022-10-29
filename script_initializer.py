@@ -1,5 +1,5 @@
 
-def initialize_script(seed -> int, mutation_rate -> float):
+def initialize_script(seed: int, mutation_name: str, mutation_rate: float):
     """
     Initializes the eidos script
 
@@ -19,8 +19,8 @@ def generate_all_mutation_types():
     pass
 
 
-def generate_mutation_type(mutation_name -> str, dominance_coefficient -> str,
-    fitness_type -> str, fitness_parameter -> str):
+def generate_mutation_type(mutation_name: str, dominance_coefficient: str,
+    fitness_type: str, fitness_parameter: str):
     """
     Generate mutation type
 
@@ -30,7 +30,7 @@ def generate_mutation_type(mutation_name -> str, dominance_coefficient -> str,
         fitness_type (str): distribution of fitness effects
         fitness_parameter (float): fixed selection coefficient (0 for neutral, 0.1 for balancing)
     """
-    return f"initializeMutationType({mutation_name}, {dominance_coefficient}, " \ 
+    return f"initializeMutationType({mutation_name}, {dominance_coefficient}, " \
         f"{fitness_type}, {fitness_parameter}); "
 
 
@@ -38,7 +38,7 @@ def generate_all_genomic_element_types():
     pass
 
 
-def generate_genomic_element_type(element_name -> str, mutation_type -> str, mutation_ratio -> str):
+def generate_genomic_element_type(element_name: str, mutation_type: str, mutation_ratio: str):
     """
     Generate genomic element types
 
@@ -50,11 +50,12 @@ def generate_genomic_element_type(element_name -> str, mutation_type -> str, mut
     return f"initializeGenomicElementType({element_name}, {mutation_type}, {mutation_ratio});"
 
 
-def generate_overall_genome(size -> int):
+def generate_overall_genome(size: int):
+    pass
     # make random section generator that makes sections of a certain size
 
 
-def generate_genomic_element(element_type -> str, start -> int, end -> int):
+def generate_genomic_element(element_type: str, start: int, end: int):
     """
     Generates a section of a genome
 
@@ -66,7 +67,7 @@ def generate_genomic_element(element_type -> str, start -> int, end -> int):
     return f"initializeGenomicElement({element_type}, {start}, {end});"
 
 
-def generate_recombination_rate(rate -> float):
+def generate_recombination_rate(rate: float):
     """
     Generates recombination rate
 
@@ -74,8 +75,5 @@ def generate_recombination_rate(rate -> float):
         rate (float): recombination rate - usually should be small (0.01)
     """
     return f"initializeRecombinationRate{rate};"
-
-
-def add_population():
 
 
