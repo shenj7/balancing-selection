@@ -16,7 +16,7 @@ def generate_eidos_script(filename, seed, mutation_rate, recombination_rate, pop
     popname = "p1"
     mut1 = "m1"
     mut2 = "m2"
-    with open(filename, "w") as script:
+    with open(f"test_runs/{filename}", "w") as script:
         script.write(initialize_script(seed, mutation_rate, recombination_rate))
         script.write(add_population(popname, population_size))  # how do we want to deal with population names
         add_mutation_effect(mut1, popname)
