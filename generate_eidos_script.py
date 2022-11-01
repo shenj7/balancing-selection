@@ -23,3 +23,4 @@ def generate_eidos_script(filename, seed, mutation_rate, population_size, output
         add_mutation_effect(mut2, popname)
         script.write(finish_simulation(output_location))
 
+
