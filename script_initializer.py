@@ -1,5 +1,5 @@
 
-def initialize_script(seed: int, mutation_rate: float):
+def initialize_script(seed: int, mutation_rate: float, recombination_rate: float):
     """
     Initializes the eidos script
 
@@ -11,7 +11,7 @@ def initialize_script(seed: int, mutation_rate: float):
         f"{generate_all_mutation_types()}" \
         f"{generate_all_genomic_element_types()}" \
         f"{generate_overall_genome()}" \
-        f"{generate_recombination_rate()}" \
+        f"{generate_recombination_rate(recombination_rate)}" \
         "}"
 
 
@@ -56,7 +56,7 @@ def generate_genomic_element_type(element_name: str, mutation_type: str, mutatio
     return f"initializeGenomicElementType(\"{element_name}\", {mutation_type}, {mutation_ratio});"
 
 
-def generate_overall_genome(size: int):
+def generate_overall_genome():  #could make size an input
     # make random section generator that makes sections of a certain size
     start_index = 33 # will make random but hardcode for now
     end_index = 66
