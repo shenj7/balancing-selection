@@ -7,7 +7,7 @@ def initialize_script(seed: int, mutation_rate: float, recombination_rate: float
         seed (float): randomizer seed
     """
     return "initialize() {" \
-        f"setSeed({seed});initializeMutationRate{mutation_rate};" \
+        f"setSeed({seed});initializeMutationRate({mutation_rate});" \
         f"{generate_all_mutation_types()}" \
         f"{generate_all_genomic_element_types()}" \
         f"{generate_overall_genome()}" \
@@ -85,6 +85,6 @@ def generate_recombination_rate(rate: float):
     Args:
         rate (float): recombination rate - usually should be small (0.01)
     """
-    return f"initializeRecombinationRate{rate};"
+    return f"initializeRecombinationRate({rate});"
 
 
