@@ -1,89 +1,39 @@
 import allel
+import numpy as np
 
-def calculate_summary_statistics(filename):
-    """calculate the summary statistics from the vcf file
+def read_vcf(input):
+    return allel.read_vcf(input)
 
-    Args:
-        filename (String): the vcf file's name
-    """
-    vcf_dict = vcf_file_to_dict(filename)
-    pi = calculate_pi(vcf_dict)
-    watterson_theta = calculate_watterson_theta(vcf_dict)
-    tajima_d = calculate_tajima_d(vcf_dict)
-    print(pi)
-    print(watterson_theta)
-    print(tajima_d)
+def calculate_moving_garud_h(vcf_dict, windowSize):
+    g = allel.GenotypeArray(vcf_dict['calldata/GT'])
+    hap = g.to_haplotypes()
+    h1, h12, h123, h2_h1 = allel.moving_garud_h(hap, windowSize)
+    return h1, h12, h123, h2_h1
 
-def vcf_file_to_dict(filename):
-    """convert the vcf file to a dict
-
-    Args:
-        filename (String): the vcf file's name
-
-    Returns:
-        dict: the dict form of the vcf file
-    """
-    vcf_dict = allel.read_vcf(filename)
-    return vcf_dict
-
-def calculate_pi(vcf_dict):
-    """calculates the pi summary statistic
-
-    Args:
-        vcf_dict (dict): the dict form of the vcf file
-
-    Returns:
-        float: the pi summary statistic
-    """
-    pos_ac_dict = get_pos_and_ac_from_vcf_dict(vcf_dict)
-    pi = allel.sequence_diversity(pos_ac_dict['pos'], pos_ac_dict['ac'])
-    return pi
-
-def calculate_watterson_theta(vcf_dict):
-    """calculates the watterson theta summary statistic
-
-    Args:
-        vcf_dict (dict): the dict form of the vcf file
-
-    Returns:
-        float: the watterson theta summary statistic
-    """
-    pos_ac_dict = get_pos_and_ac_from_vcf_dict(vcf_dict)
-    watterson_theta = allel.watterson_theta(pos_ac_dict['pos'], pos_ac_dict['ac'])
-    return watterson_theta
-
-def calculate_tajima_d(vcf_dict):
-    """calculates the tajima d summary statistic
-
-    Args:
-        vcf_dict (dict): the dict form of the vcf file
-
-    Returns:
-        float: the tajima d summary statistic
-    """
-    pos_ac_dict = get_pos_and_ac_from_vcf_dict(vcf_dict)
-    tajima_d = allel.tajima_d(pos_ac_dict['ac'], pos_ac_dict['pos'])
-    return tajima_d
-
-
-
-def get_pos_and_ac_from_vcf_dict(vcf_dict):
-    """gets the variant positions (pos) and the allele counts array (ac)
-
-    Args:
-        vcf_dict (dict): the dict form of the vcf file
-
-    Returns:
-        dict: the variant positions and the allele counts array returned as a dict
-    """
+def calculate_moving_tajima_d(vcf_dict, windowSize):
     g = allel.GenotypeArray(vcf_dict['calldata/GT'])
     ac = g.count_alleles()
-    pos = vcf_dict['variants/POS']
-    return {
-        'pos': pos,
-        'ac': ac
-    }
+    d = allel.moving_tajima_d(ac, windowSize)
+    return d
 
+def calculate_moving_pi(vcf_dict, windowSize):
+    g = allel.GenotypeArray(vcf_dict['calldata/GT'])
+    ac = g.count_alleles()
+    mpd = allel.mean_pairwise_difference(ac)
+    mpd_sum = allel.moving_statistic(mpd, np.sum, windowSize)
+    return mpd_sum
 
+def main():
+    vcf_dict = read_vcf('./vcf_files/vcfsectiontestssamplesize20')
+    windowSize = 10
+    h1, h12, h123, h2_h1 = calculate_moving_garud_h(vcf_dict, windowSize)
+    d = calculate_moving_tajima_d(vcf_dict, windowSize)
+    pi = calculate_moving_pi(vcf_dict, windowSize)
+    print(h1, '\n')
+    print(h12, '\n')
+    print(h123, '\n')
+    print(h2_h1, '\n')
+    print(d, '\n')
+    print(pi, '\n')
 
-calculate_summary_statistics('./vcf_files/vcfsectiontestssamplesize20')
+main()
