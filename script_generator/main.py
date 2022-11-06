@@ -1,6 +1,4 @@
 from argparse import ArgumentParser
-from ast import parse
-from pydoc import describe
 import sys
 
 from generate_eidos_script import generate_eidos_script
