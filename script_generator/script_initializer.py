@@ -9,7 +9,7 @@ def initialize_script(seed: int, mutation_rate: float, recombination_rate: float
     # TODO: what is the defineconstant?
     constant_l = 100
     return "initialize() {" \
-        f"setSeed({seed});defineConstant('L', {constant_l});" \
+        f"setSeed({seed});defineConstant(\"L\", {constant_l});" \
         "initializeSLiMOptions(nucleotideBased=T);initializeAncestralNucleotides(randomNucleoides(L));" \
         f"{generate_all_mutation_types()}" \
         f"{generate_all_genomic_element_types()}" \
