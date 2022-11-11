@@ -7,7 +7,8 @@ def finish_simulation(filepath: str, population: str):
     Args:
         filepath (str): filepath to output to, default: ./{uuid4}
     """
-    return "10000 early() { sim.simulationFinished();" \
-        f"{population}.genomes.outputVCF(filePath=\"runs/{filepath or uuid4()}\");" \
-        "}"
+    return "10000 late() {" \
+        f"g = {population}.sampleIndividuals({sample_size}).genomes" \
+        f"g.outputVCFSample(sampleSize={sample_size}, filePath=\"runs/{filepath or uuid4()}\");" \
+        "sim.simulationFinished();}"
         
