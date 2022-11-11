@@ -6,8 +6,11 @@ def initialize_script(seed: int, mutation_rate: float, recombination_rate: float
     Args:
         seed (float): randomizer seed
     """
+    # TODO: what is the defineconstant?
+    constant_l = 100
     return "initialize() {" \
-        f"setSeed({seed});initializeMutationRate({mutation_rate});" \
+        f"setSeed({seed});defineConstant(\"L\", {constant_l});" \
+        "initializeSLiMOptions(nucleotideBased=T);initializeAncestralNucleotides(randomNucleoides(L));" \
         f"{generate_all_mutation_types()}" \
         f"{generate_all_genomic_element_types()}" \
         f"{generate_overall_genome()}" \
@@ -36,7 +39,7 @@ def generate_mutation_type(mutation_name: str, dominance_coefficient: str,
         fitness_type (str): distribution of fitness effects
         fitness_parameter (float): fixed selection coefficient (0 for neutral, 0.1 for balancing)
     """
-    return f"initializeMutationType(\"{mutation_name}\", {dominance_coefficient}, " \
+    return f"initializeMutationTypeNuc(\"{mutation_name}\", {dominance_coefficient}, " \
         f"\"{fitness_type}\", {fitness_parameter}); "
 
 
@@ -53,7 +56,7 @@ def generate_genomic_element_type(element_name: str, mutation_type: str, mutatio
         mutation_type (str): mutation type name (could be in a format such as c(m1, m2))
         mutation_ratio (str): mutation ratios (could be in a format such as c(0.2, 0.8))
     """
-    return f"initializeGenomicElementType(\"{element_name}\", {mutation_type}, {mutation_ratio});"
+    return f"initializeGenomicElementType(\"{element_name}\", {mutation_type}, {mutation_ratio}, mutationMatrix);"
 
 
 def generate_overall_genome():  #could make size an input
