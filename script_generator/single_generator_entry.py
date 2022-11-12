@@ -3,6 +3,12 @@ import sys
 
 from generate_eidos_script import generate_eidos_script
 
+"""
+Entry point for generating a single Eidos script
+Note: This entry point is mainly for testing specific scripts,
+    see multiple_generator_entry.py for the main entry point
+"""
+
 def command_line_parser(main_args):
     parser = ArgumentParser(description="Generates eidos scripts")
     parser.add_argument('-f', '--filename', required=True,
