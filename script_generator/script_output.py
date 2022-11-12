@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+
 def finish_simulation(filepath: str, population: str):
     """
     Finish simulation
@@ -12,4 +13,3 @@ def finish_simulation(filepath: str, population: str):
         f"g = {population}.sampleIndividuals({sample_size}).genomes" \
         f"g.outputVCF(filePath=\"runs/{filepath or uuid4()}\", simplifyNucleotides=T);" \
         "sim.simulationFinished();}"
-        

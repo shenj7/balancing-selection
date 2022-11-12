@@ -14,4 +14,4 @@ def add_mutation_effect(mutation_name: str, population_name: str):
             "{" \
             f"return 1.5 - sim.mutationFrequencies({population_name}, {mutation_name});"\
             "}"
-        # what does the return statement do in mutationEffect?
+    # what does the return statement do in mutationEffect?
