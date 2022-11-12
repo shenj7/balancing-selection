@@ -1,5 +1,5 @@
-
-def initialize_script(seed: int, mutation_rate: float, recombination_rate: float):
+def initialize_script(seed: int, mutation_rate: float,
+                      recombination_rate: float):
     """
     Initializes the eidos script
 
@@ -25,11 +25,13 @@ def generate_all_mutation_types():
     Returns:
         str: mutations
     """
-    return generate_mutation_type("m1", "0.5", "f", "0.0") + generate_mutation_type("m2", "0.5", "f", "0.1")
+    return generate_mutation_type("m1", "0.5", "f",
+                                  "0.0") + generate_mutation_type(
+                                      "m2", "0.5", "f", "0.1")
 
 
 def generate_mutation_type(mutation_name: str, dominance_coefficient: str,
-    fitness_type: str, fitness_parameter: str):
+                           fitness_type: str, fitness_parameter: str):
     """
     Generate mutation type
 
@@ -44,10 +46,13 @@ def generate_mutation_type(mutation_name: str, dominance_coefficient: str,
 
 
 def generate_all_genomic_element_types():
-    return generate_genomic_element_type("g1", "m1", "1.0") + generate_genomic_element_type("g2", "c(m1, m2)", "c(999, 1")
+    return generate_genomic_element_type(
+        "g1", "m1", "1.0") + generate_genomic_element_type(
+            "g2", "c(m1, m2)", "c(999, 1")
 
 
-def generate_genomic_element_type(element_name: str, mutation_type: str, mutation_ratio: str):
+def generate_genomic_element_type(element_name: str, mutation_type: str,
+                                  mutation_ratio: str):
     """
     Generate genomic element types
 
@@ -61,12 +66,11 @@ def generate_genomic_element_type(element_name: str, mutation_type: str, mutatio
 
 def generate_overall_genome():  #could make size an input
     # make random section generator that makes sections of a certain size
-    start_index = 33 # will make random but hardcode for now
+    start_index = 33  # will make random but hardcode for now
     end_index = 66
     return generate_genomic_element("g1", "0", str(start_index-1))\
         + generate_genomic_element("g2", str(start_index), str(end_index))\
             + generate_genomic_element("g1", str(end_index + 1), "99")
-
 
 
 def generate_genomic_element(element_type: str, start: int, end: int):
@@ -89,5 +93,3 @@ def generate_recombination_rate(rate: float):
         rate (float): recombination rate - usually should be small (0.01)
     """
     return f"initializeRecombinationRate({rate});"
-
-
