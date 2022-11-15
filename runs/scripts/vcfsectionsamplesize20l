@@ -1,0 +1,64 @@
+initialize() {
+
+    setSeed(1);
+
+    defineConstant("L", 100);
+    initializeSLiMOptions(nucleotideBased=T);
+    initializeAncestralNucleotides(randomNucleotides(L));
+
+    mutationMatrix = mmJukesCantor(1e-4);
+
+    //initializeMutationRate(0.1);
+
+    initializeMutationTypeNuc("m1", 0.5, "f", 0.0);    // neutral
+
+    initializeMutationTypeNuc("m2", 0.5, "f", 0.1);    // balanced
+
+    mt = c(m1, m2);
+
+    initializeGenomicElementType("g1", m1, 1.0, mutationMatrix); // neutral
+
+    initializeGenomicElementType("g2", mt, c(999,1), mutationMatrix); //balancing
+
+    
+
+    initializeGenomicElement(g1, 0, 32);
+
+    initializeGenomicElement(g2, 33, 66);
+
+    initializeGenomicElement(g1, 67, 99);
+
+              
+    //mt.mutationStackPolicy = "l";
+    //mt.mutationStackGroup = -1;
+    //mt.convertToSubstitution = F;    
+
+    //m1.mutationStackPolicy = "l";
+    //m1.mutationStackGroup = -1;
+    //m1.convertToSubstitution = F;
+
+    //m2.mutationStackPolicy = "l";
+    //m2.mutationStackGroup = -1;
+    //m2.convertToSubstitution = F;
+
+    //initializeGenomicElement(g1, 0, 100);
+
+    initializeRecombinationRate(0.01);
+
+}
+
+1 early() { sim.addSubpop("p1", 500); }
+
+10000 late() {
+    g = p1.sampleIndividuals(20).genomes; 
+    g.outputVCF(filePath="runs/vcfsectiontestssamplesize20l", simplifyNucleotides=T);
+    //p1.outputVCFSample(sampleSize=20, filePath="runs/vcfsectiontestssamplesize20l");
+     
+    sim.simulationFinished();
+}
+
+mutationEffect(m2) {
+
+    return 1.5 - sim.mutationFrequencies(p1, mut);
+
+}

@@ -1,0 +1,49 @@
+initialize() {
+
+    setSeed(1);
+
+    initializeMutationRate(0.1);
+
+    
+
+    initializeMutationType("m1", 0.5, "f", 0.0);    // neutral
+
+    initializeMutationType("m2", 0.5, "f", 0.1);    // balanced
+
+
+
+     initializeGenomicElementType("g1", m1, 1.0); // neutral
+
+    initializeGenomicElementType("g2", c(m1,m2), c(999,1)); //balancing
+
+    
+
+     initializeGenomicElement(g1, 0, 32);
+
+     initializeGenomicElement(g2, 33, 66);
+
+     initializeGenomicElement(g1, 67, 99);
+
+              
+
+        
+
+    //initializeGenomicElement(g1, 0, 100);
+
+    initializeRecombinationRate(0.01);
+
+}
+
+1 early() { sim.addSubpop("p1", 500); }
+
+10000 early() {
+    p1.outputVCFSample(sampleSize=20, filePath="runs/vcfsectiontestssamplesize20");
+     
+    sim.simulationFinished();
+}
+
+mutationEffect(m2) {
+
+    return 1.5 - sim.mutationFrequencies(p1, mut);
+
+}
