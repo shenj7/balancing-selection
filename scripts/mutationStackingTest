@@ -1,0 +1,38 @@
+initialize() {
+defineConstant("C", 10); // number of loci
+// Create our loci
+for (locus in 0:(C-1))
+{
+// Effects for the nucleotides ATGC are drawn from a normal DFE
+effects = rnorm(4, mean=0, sd=0.05);
+// Each locus is set up with its own mutType and geType
+mtA = initializeMutationType(locus*4 + 0, 0.5, "f", effects[0]);
+mtT = initializeMutationType(locus*4 + 1, 0.5, "f", effects[1]);
+mtG = initializeMutationType(locus*4 + 2, 0.5, "f", effects[2]);
+mtC = initializeMutationType(locus*4 + 3, 0.5, "f", effects[3]);
+mt = c(mtA, mtT, mtG, mtC);
+geType = initializeGenomicElementType(locus, mt, c(1,1,1,1));
+initializeGenomicElement(geType, locus, locus);
+// We do not want mutations to stack or fix
+mt.mutationStackPolicy = "l";
+mt.mutationStackGroup = -1;
+mt.convertToSubstitution = F;
+// Each mutation type knows the nucleotide it represents
+mtA.setValue("nucleotide", "A");
+mtT.setValue("nucleotide", "T");
+mtG.setValue("nucleotide", "G");
+mtC.setValue("nucleotide", "C");
+}
+initializeMutationRate(1e-6); // includes 25% identity mutations
+initializeRecombinationRate(1e-8);
+}
+
+1 early() { sim.addSubpop("p1", 20); }
+
+
+10000 early() {
+    p1.outputVCFSample(sampleSize=5, filePath="runs/");
+
+    sim.simulationFinished();
+}
+
