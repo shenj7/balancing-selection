@@ -1,0 +1,5 @@
+This is a library used to generate eidos scripts used to model balancing selection in SLiM with very specific parameters
+- Two types of mutations: neutral and positive
+- Specifically nucleotides with a stacking policy of 'l'
+
+note: python formatted by yapf
