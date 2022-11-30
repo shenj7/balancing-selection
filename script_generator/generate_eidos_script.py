@@ -18,7 +18,7 @@ def generate_eidos_script(filename, seed, mutation_rate, recombination_rate,
     popname = "p1"
     mut1 = "m1"
     mut2 = "m2"
-    with open(f"../scripts/{filename}", "w") as script:
+    with open(f"./scripts/{filename}", "w") as script:
         script.write(initialize_script(seed, mutation_rate,
                                        recombination_rate))
         script.write(add_population(

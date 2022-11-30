@@ -6,6 +6,6 @@ def add_population(name, size):
         name (str): name of population
         size (int): size of population
     """
-    return "1 early() {" \
-            f"sim.addSubpop({name}, {size});" \
-            "}"
+    return "1 early() {\n" \
+            f"sim.addSubpop(\"{name}\", {size});\n" \
+            "}\n"

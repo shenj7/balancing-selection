@@ -8,14 +8,15 @@ def initialize_script(seed: int, mutation_rate: float,
     """
     # TODO: what is the defineconstant?
     constant_l = 100
-    return "initialize() {" \
-        f"setSeed({seed});defineConstant(\"L\", {constant_l});" \
-        "initializeSLiMOptions(nucleotideBased=T);initializeAncestralNucleotides(randomNucleoides(L));" \
-        f"{generate_all_mutation_types()}" \
-        f"{generate_all_genomic_element_types()}" \
-        f"{generate_overall_genome()}" \
-        f"{generate_recombination_rate(recombination_rate)}" \
-        "}"
+    return "initialize() {\n" \
+        f"setSeed({seed});\ndefineConstant(\"L\", {constant_l});\n" \
+        f"mutationMatrix = mmJukesCantor({mutation_rate});\n" \
+        "initializeSLiMOptions(nucleotideBased=T);\ninitializeAncestralNucleotides(randomNucleotides(L));\n" \
+        f"{generate_all_mutation_types()}\n" \
+        f"{generate_all_genomic_element_types()}\n" \
+        f"{generate_overall_genome()}\n" \
+        f"{generate_recombination_rate(recombination_rate)}\n" \
+        "}\n"
 
 
 def generate_all_mutation_types():
@@ -42,13 +43,13 @@ def generate_mutation_type(mutation_name: str, dominance_coefficient: str,
         fitness_parameter (float): fixed selection coefficient (0 for neutral, 0.1 for balancing)
     """
     return f"initializeMutationTypeNuc(\"{mutation_name}\", {dominance_coefficient}, " \
-        f"\"{fitness_type}\", {fitness_parameter}); "
+        f"\"{fitness_type}\", {fitness_parameter});\n"
 
 
 def generate_all_genomic_element_types():
     return generate_genomic_element_type(
         "g1", "m1", "1.0") + generate_genomic_element_type(
-            "g2", "c(m1, m2)", "c(999, 1")
+            "g2", "c(m1, m2)", "c(999, 1)")
 
 
 def generate_genomic_element_type(element_name: str, mutation_type: str,
@@ -61,7 +62,7 @@ def generate_genomic_element_type(element_name: str, mutation_type: str,
         mutation_type (str): mutation type name (could be in a format such as c(m1, m2))
         mutation_ratio (str): mutation ratios (could be in a format such as c(0.2, 0.8))
     """
-    return f"initializeGenomicElementType(\"{element_name}\", {mutation_type}, {mutation_ratio}, mutationMatrix);"
+    return f"initializeGenomicElementType(\"{element_name}\", {mutation_type}, {mutation_ratio}, mutationMatrix);\n"
 
 
 def generate_overall_genome():  #could make size an input
@@ -82,7 +83,7 @@ def generate_genomic_element(element_type: str, start: int, end: int):
         start (int): start of section
         end (int): end of section
     """
-    return f"initializeGenomicElement({element_type}, {start}, {end});"
+    return f"initializeGenomicElement({element_type}, {start}, {end});\n"
 
 
 def generate_recombination_rate(rate: float):
@@ -92,4 +93,4 @@ def generate_recombination_rate(rate: float):
     Args:
         rate (float): recombination rate - usually should be small (0.01)
     """
-    return f"initializeRecombinationRate({rate});"
+    return f"initializeRecombinationRate({rate});\n"
