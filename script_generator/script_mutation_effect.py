@@ -12,6 +12,6 @@ def add_mutation_effect(mutation_name: str, population_name: str):
     # change lines 3 and 4 to same in the future - python currently shitting
     return f"mutationEffect({mutation_name})" \
             "{" \
-            f"return 1.5 - sim.mutationFrequencies({population_name}, {mutation_name});"\
+            f"return 1.5 - sim.mutationFrequencies({population_name}, {mutation_name});\n"\
             "}"
     # what does the return statement do in mutationEffect?
