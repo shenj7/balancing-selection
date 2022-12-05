@@ -20,6 +20,14 @@ def command_line_parser(main_args):
                         '--directory',
                         required=True,
                         help="Output directory for Eidos scripts")
+    parser.add_argument('-cl',
+                        '--minimum-selection_coefficient',
+                        required=True,
+                        help="minimum selection coefficient")
+    parser.add_argument('-cl',
+                        '--maximum-selection_coefficient',
+                        required=True,
+                        help="maximum selection coefficient")
     parser.add_argument('-n',
                         '--number_of_scripts',
                         required=True,
@@ -83,9 +91,11 @@ def main(main_args=None):
                                             args.maximum_recombination_rate)
         population_size = random.randint(args.minimum_population_size,
                                          args.maximum_population_size)
+        selection_coefficient = random.randint(args.minimum_selection_coefficient,
+                                         args.maximum_selection_coefficient)
         output_location = f"{args.directory}/{filename}.vcf"
         generate_eidos_script(filename, seed, mutation_rate,
-                              recombination_rate, population_size,
+                              recombination_rate, selection_coefficient, population_size,
                               output_location)
 
 
