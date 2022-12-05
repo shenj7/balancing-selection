@@ -4,7 +4,7 @@ from script_output import finish_simulation
 from script_mutation_effect import add_mutation_effect
 
 
-def generate_eidos_script(filename, seed, mutation_rate, recombination_rate,
+def generate_eidos_script(filename, seed, mutation_rate, recombination_rate, selection_coefficient,
                           population_size, output_location):
     """
     Generates eidos script with random sections of
@@ -20,7 +20,7 @@ def generate_eidos_script(filename, seed, mutation_rate, recombination_rate,
     mut2 = "m2"
     with open(f"./scripts/{filename}", "w") as script:
         script.write(initialize_script(seed, mutation_rate,
-                                       recombination_rate))
+                                       recombination_rate, selection_coefficient))
         script.write(add_population(
             popname,
             population_size))  # how do we want to deal with population names

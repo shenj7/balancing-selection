@@ -1,5 +1,5 @@
 def initialize_script(seed: int, mutation_rate: float,
-                      recombination_rate: float):
+                      recombination_rate: float, selection_coefficient: str):
     """
     Initializes the eidos script
 
@@ -12,14 +12,14 @@ def initialize_script(seed: int, mutation_rate: float,
         f"setSeed({seed});\ndefineConstant(\"L\", {constant_l});\n" \
         f"mutationMatrix = mmJukesCantor({mutation_rate});\n" \
         "initializeSLiMOptions(nucleotideBased=T);\ninitializeAncestralNucleotides(randomNucleotides(L));\n" \
-        f"{generate_all_mutation_types()}\n" \
+        f"{generate_all_mutation_types(selection_coefficient)}\n" \
         f"{generate_all_genomic_element_types()}\n" \
         f"{generate_overall_genome()}\n" \
         f"{generate_recombination_rate(recombination_rate)}\n" \
         "}\n"
 
 
-def generate_all_mutation_types():
+def generate_all_mutation_types(selection_coefficient):
     """
     Generates all mutations
 
@@ -28,7 +28,7 @@ def generate_all_mutation_types():
     """
     return generate_mutation_type("m1", "0.5", "f",
                                   "0.0") + generate_mutation_type(
-                                      "m2", "0.5", "f", "0.1")
+                                      "m2", "0.5", "f", selection_coefficient)
 
 
 def generate_mutation_type(mutation_name: str, dominance_coefficient: str,
