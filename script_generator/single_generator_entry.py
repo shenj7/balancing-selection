@@ -19,6 +19,10 @@ def command_line_parser(main_args):
                         '--seed',
                         default='0',
                         help="Random seed for Eidos script")
+    parser.add_argument('-c',
+                        '--selection_coefficient',
+                        default='0.001',
+                        help="Selection coefficient")
     parser.add_argument('-m',
                         '--mutation_rate',
                         required=True,
@@ -43,7 +47,7 @@ def command_line_parser(main_args):
 def main(main_args=None):
     args = command_line_parser(main_args)
     generate_eidos_script(args.filename, args.seed, args.mutation_rate,
-                          args.recombination_rate, args.population_size,
+                          args.recombination_rate, args.selection_coefficient, args.population_size,
                           args.output_location)
 
 
