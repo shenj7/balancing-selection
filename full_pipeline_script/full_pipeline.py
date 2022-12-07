@@ -1,11 +1,10 @@
+from argparse import ArgumentParser
+import datetime
 import os
 import random
-from single_generator_entry import generate_eidos_script
-
-from argparse import ArgumentParser
+from ..script_generator.generate_eidos_script import generate_eidos_script
 import sys
-
-from generate_eidos_script import generate_eidos_script
+from ..summary_statistic_calculator.summary_statistic_dataframe_generator import create_statistics_csv
 """
 Entry point for generating multiple Eidos scripts
 Note: This is the main entry point for this script,
@@ -19,15 +18,7 @@ def command_line_parser(main_args):
     parser.add_argument('-d',
                         '--directory',
                         required=True,
-                        help="Output directory for Eidos scripts")
-    parser.add_argument('-cl',
-                        '--minimum-selection_coefficient',
-                        required=True,
-                        help="minimum selection coefficient")
-    parser.add_argument('-cr',
-                        '--maximum-selection_coefficient',
-                        required=True,
-                        help="maximum selection coefficient")
+                        help="Eidos script directory")
     parser.add_argument('-n',
                         '--number_of_scripts',
                         required=True,
@@ -36,6 +27,14 @@ def command_line_parser(main_args):
                         '--seed',
                         default='0',
                         help="Random seed for Eidos script")
+    parser.add_argument('-cl',
+                        '--minimum-selection_coefficient',
+                        required=True,
+                        help="minimum selection coefficient")
+    parser.add_argument('-cr',
+                        '--maximum-selection_coefficient',
+                        required=True,
+                        help="maximum selection coefficient")
     parser.add_argument('-ml',
                         '--minimum_mutation_rate',
                         required=True,
@@ -60,6 +59,19 @@ def command_line_parser(main_args):
                         '--maximum_population_size',
                         required=True,
                         help="Maximum population size")
+    parser.add_argument('-sz',
+                        '--size',
+                        default='10',
+                        help="Window size of windows",
+                        type=int)
+    parser.add_argument('-sd',
+                        '--stats_directory',
+                        required=True,
+                        help="Output directory for stats csv")
+    parser.add_argument('-ps',
+                        '--path_to_slim',
+                        default='/work/williarj/2223balancing_selection/slimexe',
+                        help="Path to slim executable")
 
     args = parser.parse_args(main_args)
     return args
@@ -82,8 +94,9 @@ def main(main_args=None):
     os.system(f"mkdir {args.directory}")
     os.system(f"mkdir {args.directory}/outputs")
     random.seed(args.seed)
+    vcf_files = []
+    filenames = []
     for _ in range(args.number_of_scripts):
-        filename = f"{args.directory}/foo"  # TODO
         seed = random.randint()
         mutation_rate = random.uniform(args.minimum_mutation_rate,
                                        args.maximum_mutation_rate)
@@ -93,11 +106,18 @@ def main(main_args=None):
                                          args.maximum_population_size)
         selection_coefficient = random.randint(args.minimum_selection_coefficient,
                                          args.maximum_selection_coefficient)
+        filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
+        filenames.append(filename)
         output_location = f"{args.directory}/{filename}.vcf"
+        vcf_files.append(output_location)
         generate_eidos_script(filename, seed, mutation_rate,
                               recombination_rate, selection_coefficient, population_size,
                               output_location)
+        os.system(f"{args.path_to_slim} {filename}")
 
+    for k in range(len(filenames)):     
+        stats_output_location = f"{args.stats_directory}/{filenames[k]}.csv" 
+        create_statistics_csv(vcf_files[k], args.size, stats_output_location)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
