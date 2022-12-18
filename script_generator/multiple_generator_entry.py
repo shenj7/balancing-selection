@@ -1,5 +1,6 @@
 import os
 import random
+import datetime
 from single_generator_entry import generate_eidos_script
 
 from argparse import ArgumentParser
@@ -23,43 +24,53 @@ def command_line_parser(main_args):
     parser.add_argument('-cl',
                         '--minimum-selection_coefficient',
                         required=True,
-                        help="minimum selection coefficient")
+                        help="minimum selection coefficient",
+                        type=float)
     parser.add_argument('-cr',
                         '--maximum-selection_coefficient',
                         required=True,
-                        help="maximum selection coefficient")
+                        help="maximum selection coefficient",
+                        type=float)
     parser.add_argument('-n',
                         '--number_of_scripts',
                         required=True,
-                        help="Number of scripts to generate")
+                        help="Number of scripts to generate",
+                        type=int)
     parser.add_argument('-s',
                         '--seed',
                         default='0',
-                        help="Random seed for Eidos script")
+                        help="Random seed for Eidos script",
+                        type=int)
     parser.add_argument('-ml',
                         '--minimum_mutation_rate',
                         required=True,
-                        help="Minimum population mutation rate")
+                        help="Minimum population mutation rate",
+                        type=float)
     parser.add_argument('-mr',
                         '--maximum_mutation_rate',
                         required=True,
-                        help="Maximum population mutation rate")
+                        help="Maximum population mutation rate",
+                        type=float)
     parser.add_argument('-rl',
                         '--minimum_recombination_rate',
                         required=True,
-                        help="Minimum recombination rate")
+                        help="Minimum recombination rate",
+                        type=float)
     parser.add_argument('-rr',
                         '--maximum_recombination_rate',
                         required=True,
-                        help="Maximum recombination rate")
+                        help="Maximum recombination rate",
+                        type=float)
     parser.add_argument('-pl',
                         '--minimum_population_size',
                         required=True,
-                        help="Minimum population size")
+                        help="Minimum population size",
+                        type=int)
     parser.add_argument('-pr',
                         '--maximum_population_size',
                         required=True,
-                        help="Maximum population size")
+                        help="Maximum population size",
+                        type=int)
 
     args = parser.parse_args(main_args)
     return args
@@ -83,16 +94,16 @@ def main(main_args=None):
     os.system(f"mkdir {args.directory}/outputs")
     random.seed(args.seed)
     for _ in range(args.number_of_scripts):
-        filename = f"{args.directory}/foo"  # TODO
-        seed = random.randint()
+        seed = random.randint(0, 10000000)
         mutation_rate = random.uniform(args.minimum_mutation_rate,
                                        args.maximum_mutation_rate)
         recombination_rate = random.uniform(args.minimum_recombination_rate,
                                             args.maximum_recombination_rate)
         population_size = random.randint(args.minimum_population_size,
                                          args.maximum_population_size)
-        selection_coefficient = random.randint(args.minimum_selection_coefficient,
+        selection_coefficient = random.uniform(args.minimum_selection_coefficient,
                                          args.maximum_selection_coefficient)
+        filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
         output_location = f"{args.directory}/{filename}.vcf"
         generate_eidos_script(filename, seed, mutation_rate,
                               recombination_rate, selection_coefficient, population_size,

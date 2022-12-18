@@ -1,0 +1,33 @@
+initialize() {
+setSeed(1237192);
+defineConstant("L", 100);
+mutationMatrix = mmJukesCantor(4.504307611043168e-06);
+initializeSLiMOptions(nucleotideBased=T);
+initializeAncestralNucleotides(randomNucleotides(L));
+initializeMutationTypeNuc("m1", 0.5, "f", 0.0);
+initializeMutationTypeNuc("m2", 0.5, "f", 0.0001);
+
+initializeGenomicElementType("g1", m1, 1.0, mutationMatrix);
+initializeGenomicElementType("g2", c(m1, m2), c(999, 1), mutationMatrix);
+
+initializeGenomicElement(g1, 0, 32);
+initializeGenomicElement(g2, 33, 66);
+initializeGenomicElement(g1, 67, 99);
+
+initializeRecombinationRate(3.735935727661765e-07);
+
+}
+1 early() {
+sim.addSubpop("p1", 105);
+}
+mutationEffect(m1){
+return 1.5 - sim.mutationFrequencies(p1, mut);
+}
+mutationEffect(m2){
+return 1.5 - sim.mutationFrequencies(p1, mut);
+}
+10000 late() {
+g = p1.sampleIndividuals(20).genomes;
+g.outputVCF(filePath="/../scripts/1237192_4.504307611043168e-06_3.735935727661765e-07_105_2022-12-12 13:10:16.549697.vcf", simplifyNucleotides=T);
+sim.simulationFinished();
+}

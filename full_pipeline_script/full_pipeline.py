@@ -2,9 +2,9 @@ from argparse import ArgumentParser
 import datetime
 import os
 import random
-from ..script_generator.generate_eidos_script import generate_eidos_script
+#from ..script_generator.generate_eidos_script import generate_eidos_script
 import sys
-from ..summary_statistic_calculator.summary_statistic_dataframe_generator import create_statistics_csv
+#from ..summary_statistic_calculator.summary_statistic_dataframe_generator import create_statistics_csv
 """
 Entry point for generating multiple Eidos scripts
 Note: This is the main entry point for this script,
@@ -30,35 +30,43 @@ def command_line_parser(main_args):
     parser.add_argument('-cl',
                         '--minimum-selection_coefficient',
                         required=True,
-                        help="minimum selection coefficient")
+                        help="minimum selection coefficient",
+                        type=int)
     parser.add_argument('-cr',
                         '--maximum-selection_coefficient',
                         required=True,
-                        help="maximum selection coefficient")
+                        help="maximum selection coefficient",
+                        type=int)
     parser.add_argument('-ml',
                         '--minimum_mutation_rate',
                         required=True,
-                        help="Minimum population mutation rate")
+                        help="Minimum population mutation rate",
+                        type=int)
     parser.add_argument('-mr',
                         '--maximum_mutation_rate',
                         required=True,
-                        help="Maximum population mutation rate")
+                        help="Maximum population mutation rate",
+                        type=int)
     parser.add_argument('-rl',
                         '--minimum_recombination_rate',
                         required=True,
-                        help="Minimum recombination rate")
+                        help="Minimum recombination rate",
+                        type=int)
     parser.add_argument('-rr',
                         '--maximum_recombination_rate',
                         required=True,
-                        help="Maximum recombination rate")
+                        help="Maximum recombination rate",
+                        type=int)
     parser.add_argument('-pl',
                         '--minimum_population_size',
                         required=True,
-                        help="Minimum population size")
+                        help="Minimum population size",
+                        type=int)
     parser.add_argument('-pr',
                         '--maximum_population_size',
                         required=True,
-                        help="Maximum population size")
+                        help="Maximum population size",
+                        type=int)
     parser.add_argument('-sz',
                         '--size',
                         default='10',
@@ -88,6 +96,7 @@ def main(main_args=None):
     ├─ script_2
 
     """
+    print(os.getcwd())
     args = command_line_parser(main_args)
     # file output for results from simulations will be in args.directory/<guid>
     # quick thought: is a guid ok, or should we make smth more descriptive such as seed.mutation_rate.~~
@@ -96,8 +105,8 @@ def main(main_args=None):
     random.seed(args.seed)
     vcf_files = []
     filenames = []
-    for _ in range(args.number_of_scripts):
-        seed = random.randint()
+    for _ in range(int(args.number_of_scripts)):
+        seed = random.randint(0, 100000)
         mutation_rate = random.uniform(args.minimum_mutation_rate,
                                        args.maximum_mutation_rate)
         recombination_rate = random.uniform(args.minimum_recombination_rate,
