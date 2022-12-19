@@ -102,3 +102,20 @@ def calculate_balancing_selection(windows, balancing_left, balancing_right):
         else:
             balancing_selection.append(2)
     return balancing_selection
+
+def calculate_windows(windows):
+    """calculates the left and right sides of the windows
+
+    Args:
+        windows (_type_): the windows that the summary statistics have been calculated in
+
+    Returns:
+        windowsl (array): the left end points of the windows
+        windowsr (array): the right end points of the windows
+    """
+    windowsl = []
+    windowsr = []
+    for window in windows:
+        windowsl.append(window[0])
+        windowsr.append(window[1])
+    return windowsl, windowsr

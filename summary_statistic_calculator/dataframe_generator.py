@@ -17,8 +17,18 @@ def create_statistics_data_frame(vcf_dict, windowSize, balancing_left, balancing
     d, windows, counts = calc.calculate_windowed_tajima_d(vcf_dict, windowSize, windows)
     theta_hat_w, windows, n_bases, counts = calc.calculate_windowed_watterson_theta(vcf_dict, windowSize, windows)
     balancing_selection = calc.calculate_balancing_selection(windows, balancing_left, balancing_right)
+    windowsl, windowsr = calc.calculate_windows(windows)
 
-    d = { 'Pi': pi, 'h1': h1, 'h12': h12, 'h123': h123, 'h2_h1': h2_h1, 'tajima_d': d, 'watterson_theta': theta_hat_w, 'bs': balancing_selection }
+    d = { 'Pi': pi, 
+          'h1': h1, 
+          'h12': h12, 
+          'h123': h123, 
+          'h2_h1': h2_h1, 
+          'tajima_d': d, 
+          'watterson_theta': theta_hat_w, 
+          'bs': balancing_selection, 
+          'left_window': windowsl, 
+          'right_window': windowsr }
 
     df = pd.DataFrame(data=d)
 
