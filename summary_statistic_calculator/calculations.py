@@ -81,3 +81,41 @@ def calculate_windowed_watterson_theta(vcf_dict, windowSize, windows):
     pos = vcf_dict['variants/POS']
     watterson_theta, windows, n_bases, counts = allel.windowed_watterson_theta(pos, ac, windowSize, windows=windows)
     return watterson_theta, windows, n_bases, counts
+
+def calculate_balancing_selection(windows, balancing_left, balancing_right):
+    """calculates the sections for balancing selection in the windows
+
+    Args:
+        windows (_type_): the windows that the summary statistics have been calculated in
+        balancing_left (_type_): left starting point of balancing selection
+        balancing_right (_type_): right ending point of balancing selection
+
+    Returns:
+        balancing_selection (array): the balancing_selection array
+    """
+    balancing_selection = []
+    for window in windows:
+        if window[1] < balancing_left or window[0] > balancing_right:
+            balancing_selection.append(0)
+        elif window[0] >= balancing_left and window[1] <= balancing_right:
+            balancing_selection.append(1)
+        else:
+            balancing_selection.append(2)
+    return balancing_selection
+
+def calculate_windows(windows):
+    """calculates the left and right sides of the windows
+
+    Args:
+        windows (_type_): the windows that the summary statistics have been calculated in
+
+    Returns:
+        windowsl (array): the left end points of the windows
+        windowsr (array): the right end points of the windows
+    """
+    windowsl = []
+    windowsr = []
+    for window in windows:
+        windowsl.append(window[0])
+        windowsr.append(window[1])
+    return windowsl, windowsr
