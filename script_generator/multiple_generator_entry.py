@@ -104,7 +104,7 @@ def main(main_args=None):
         selection_coefficient = random.uniform(args.minimum_selection_coefficient,
                                          args.maximum_selection_coefficient)
         filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
-        output_location = f"{args.directory}/{filename}.vcf"
+        output_location = f"{args.directory}/outputs/{filename}.vcf"
         generate_eidos_script(filename, seed, mutation_rate,
                               recombination_rate, selection_coefficient, population_size,
                               output_location)
