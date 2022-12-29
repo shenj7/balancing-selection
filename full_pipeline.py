@@ -3,8 +3,11 @@ import datetime
 import os
 import random
 import sys
-from ..script_generator.generate_eidos_script import generate_eidos_script
-from ..summary_statistic_calculator.dataframe_generator import create_statistics_csv
+import importlib
+#from script_generator.generate_eidos_script import generate_eidos_script
+#from summary_statistic_calculator.dataframe_generator import create_statistics_csv
+importlib.import_module('script_generator.generate_eidos_script', '.')
+importlib.import_module('summary_statistic_calculator.dataframe_generator', '.')
 
 """
 Entry point for generating multiple Eidos scripts
