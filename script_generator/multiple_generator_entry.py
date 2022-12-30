@@ -66,6 +66,22 @@ def command_line_parser(main_args):
                         required=True,
                         help="Minimum population size",
                         type=int)
+    parser.add_argument('-lll',
+                        '--minimum_left_limit',
+                        required=True,
+                        help="Left limit for balancing selection locus")
+    parser.add_argument('-llr',
+                        '--maximum_left_limit',
+                        required=True,
+                        help="Left limit for balancing selection locus")
+    parser.add_argument('-lrl',
+                        '--minimum_right_limit',
+                        required=True,
+                        help="Right limit for balancing selection locus")
+    parser.add_argument('-lrr',
+                        '--maximum_right_limit',
+                        required=True,
+                        help="Right limit for balancing selection locus")
     parser.add_argument('-pr',
                         '--maximum_population_size',
                         required=True,
@@ -101,13 +117,21 @@ def main(main_args=None):
                                             args.maximum_recombination_rate)
         population_size = random.randint(args.minimum_population_size,
                                          args.maximum_population_size)
-        selection_coefficient = random.uniform(args.minimum_selection_coefficient,
-                                         args.maximum_selection_coefficient)
+        selection_coefficient = random.uniform(
+            args.minimum_selection_coefficient,
+            args.maximum_selection_coefficient)
+        left_limit = random.randint(args.minimum_left_limit,
+                                    args.maximum_left_limit)
+        right_limit = random.randint(args.minimum_right_limit,
+                                     args.maximum_right_limit)
+                                     #TODO: do we need an argument to make sure its not too big or small,
+                                     #        or will it be okay to have that naturally limited by the limits?
         filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
         output_location = f"{args.directory}/outputs/{filename}.vcf"
         generate_eidos_script(filename, seed, mutation_rate,
-                              recombination_rate, selection_coefficient, population_size,
-                              output_location)
+                              recombination_rate, selection_coefficient,
+                              left_limit, right_limit,
+                              population_size, output_location)
 
 
 if __name__ == '__main__':

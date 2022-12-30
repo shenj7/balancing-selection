@@ -5,7 +5,7 @@ from script_mutation_effect import add_mutation_effect
 
 
 def generate_eidos_script(filename, seed, mutation_rate, recombination_rate, selection_coefficient,
-                          population_size, output_location):
+                          left_limit, right_limit, population_size, output_location):
     """
     Generates eidos script with random sections of
     balancing selection and neutral selection
@@ -20,7 +20,8 @@ def generate_eidos_script(filename, seed, mutation_rate, recombination_rate, sel
     mut2 = "m2"
     with open(f"../scripts/{filename}", "w+") as script:
         script.write(initialize_script(seed, mutation_rate,
-                                       recombination_rate, selection_coefficient))
+                                       recombination_rate, selection_coefficient,
+                                       left_limit, right_limit))
         script.write(add_population(
             popname,
             population_size))  # how do we want to deal with population names
