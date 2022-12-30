@@ -1,5 +1,6 @@
 def initialize_script(seed: int, mutation_rate: float,
-                      recombination_rate: float, selection_coefficient: str):
+                      recombination_rate: float, selection_coefficient: str,
+                      left_limit: int, right_limit: int):
     """
     Initializes the eidos script
 
@@ -14,7 +15,7 @@ def initialize_script(seed: int, mutation_rate: float,
         "initializeSLiMOptions(nucleotideBased=T);\ninitializeAncestralNucleotides(randomNucleotides(L));\n" \
         f"{generate_all_mutation_types(selection_coefficient)}\n" \
         f"{generate_all_genomic_element_types()}\n" \
-        f"{generate_overall_genome()}\n" \
+        f"{generate_overall_genome(left_limit, right_limit)}\n" \
         f"{generate_recombination_rate(recombination_rate)}\n" \
         "}\n"
 
