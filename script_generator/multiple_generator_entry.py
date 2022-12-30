@@ -130,7 +130,7 @@ def main(main_args=None):
                                      args.maximum_right_limit)
                                      #TODO: do we need an argument to make sure its not too big or small,
                                      #        or will it be okay to have that naturally limited by the limits?
-        filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
+        filename = f"{datetime.datetime.now().date()}_{mutation_rate}_{recombination_rate}_{population_size}_{seed}"  # TODO
         output_location = f"{args.directory}/outputs/{filename}.vcf"
         generate_eidos_script(filename, seed, mutation_rate,
                               recombination_rate, selection_coefficient,
