@@ -69,19 +69,23 @@ def command_line_parser(main_args):
     parser.add_argument('-lll',
                         '--minimum_left_limit',
                         required=True,
-                        help="Left limit for balancing selection locus")
+                        help="Left limit for balancing selection locus",
+                        type=int)
     parser.add_argument('-llr',
                         '--maximum_left_limit',
                         required=True,
-                        help="Left limit for balancing selection locus")
+                        help="Left limit for balancing selection locus",
+                        type=int)
     parser.add_argument('-lrl',
                         '--minimum_right_limit',
                         required=True,
-                        help="Right limit for balancing selection locus")
+                        help="Right limit for balancing selection locus",
+                        type=int)
     parser.add_argument('-lrr',
                         '--maximum_right_limit',
                         required=True,
-                        help="Right limit for balancing selection locus")
+                        help="Right limit for balancing selection locus",
+                        type=int)
     parser.add_argument('-pr',
                         '--maximum_population_size',
                         required=True,
