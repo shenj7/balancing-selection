@@ -34,11 +34,13 @@ def command_line_parser(main_args):
     parser.add_argument('-ll',
                         '--left_limit',
                         required=True,
-                        help="Left limit for balancing selection locus")
+                        help="Left limit for balancing selection locus",
+                        type=int)
     parser.add_argument('-lr',
                         '--right_limit',
                         required=True,
-                        help="Right limit for balancing selection locus")
+                        help="Right limit for balancing selection locus",
+                        type=int)
     parser.add_argument('-p',
                         '--population_size',
                         required=True,
