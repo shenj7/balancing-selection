@@ -1,0 +1,35 @@
+##fileformat=VCFv4.2
+##fileDate=20221229
+##source=SLiM
+##INFO=<ID=MID,Number=.,Type=Integer,Description="Mutation ID in SLiM">
+##INFO=<ID=S,Number=.,Type=Float,Description="Selection Coefficient">
+##INFO=<ID=DOM,Number=.,Type=Float,Description="Dominance">
+##INFO=<ID=PO,Number=.,Type=Integer,Description="Population of Origin">
+##INFO=<ID=TO,Number=.,Type=Integer,Description="Tick of Origin">
+##INFO=<ID=MT,Number=.,Type=Integer,Description="Mutation Type">
+##INFO=<ID=AC,Number=.,Type=Integer,Description="Allele Count">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##INFO=<ID=AA,Number=1,Type=String,Description="Ancestral Allele">
+##INFO=<ID=NONNUC,Number=0,Type=Flag,Description="Non-nucleotide-based">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	i0	i1	i2	i3	i4	i5	i6	i7	i8	i9	i10	i11	i12	i13	i14	i15	i16	i17	i18	i19
+1	1	.	C	T	1000	PASS	AC=11;DP=1000;AA=C	GT	0|0	1|0	1|0	0|0	0|0	0|1	0|0	1|0	0|1	0|0	1|1	0|1	1|1	0|0	1|0	0|0	0|0	0|0	0|0	0|0
+1	2	.	C	T	1000	PASS	AC=17;DP=1000;AA=C	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	5	.	G	C	1000	PASS	AC=11;DP=1000;AA=G	GT	0|0	1|0	1|0	0|0	0|0	0|1	0|0	1|0	0|1	0|0	1|1	0|1	1|1	0|0	1|0	0|0	0|0	0|0	0|0	0|0
+1	9	.	C	T	1000	PASS	AC=12;DP=1000;AA=C	GT	1|0	0|1	0|1	0|0	1|0	0|0	0|0	0|1	0|0	1|1	0|0	0|0	0|0	0|0	0|0	0|1	1|0	0|1	0|0	1|1
+1	11	.	C	G	1000	PASS	AC=17;DP=1000;AA=C	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	17	.	A	T	1000	PASS	AC=17;DP=1000;AA=A	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	22	.	G	C	1000	PASS	AC=17;DP=1000;AA=G	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	28	.	T	A	1000	PASS	AC=17;DP=1000;AA=T	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	30	.	C	A	1000	PASS	AC=17;DP=1000;AA=C	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	32	.	C	G	1000	PASS	AC=12;DP=1000;AA=C	GT	1|0	0|1	0|1	0|0	1|0	0|0	0|0	0|1	0|0	1|1	0|0	0|0	0|0	0|0	0|0	0|1	1|0	0|1	0|0	1|1
+1	34	.	C	T	1000	PASS	AC=12;DP=1000;AA=C	GT	1|0	0|1	0|1	0|0	1|0	0|0	0|0	0|1	0|0	1|1	0|0	0|0	0|0	0|0	0|0	0|1	1|0	0|1	0|0	1|1
+1	51	.	A	C,G	1000	PASS	AC=12,11;DP=1000;AA=A	GT	1|0	2|1	2|1	0|0	1|0	0|2	0|0	2|1	0|2	1|1	2|2	0|2	2|2	0|0	2|0	0|1	1|0	0|1	0|0	1|1
+1	53	.	G	A	1000	PASS	AC=28;DP=1000;AA=G	GT	0|1	1|0	1|0	1|1	0|1	1|1	1|1	1|0	1|1	0|0	1|1	1|1	1|1	1|1	1|1	1|0	0|1	1|0	1|1	0|0
+1	54	.	C	T	1000	PASS	AC=17;DP=1000;AA=C	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	63	.	C	G	1000	PASS	AC=12;DP=1000;AA=C	GT	1|0	0|1	0|1	0|0	1|0	0|0	0|0	0|1	0|0	1|1	0|0	0|0	0|0	0|0	0|0	0|1	1|0	0|1	0|0	1|1
+1	65	.	T	C	1000	PASS	AC=17;DP=1000;AA=T	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	73	.	T	G	1000	PASS	AC=12;DP=1000;AA=T	GT	1|0	0|1	0|1	0|0	1|0	0|0	0|0	0|1	0|0	1|1	0|0	0|0	0|0	0|0	0|0	0|1	1|0	0|1	0|0	1|1
+1	85	.	C	G	1000	PASS	AC=11;DP=1000;AA=C	GT	0|0	1|0	1|0	0|0	0|0	0|1	0|0	1|0	0|1	0|0	1|1	0|1	1|1	0|0	1|0	0|0	0|0	0|0	0|0	0|0
+1	88	.	A	C	1000	PASS	AC=17;DP=1000;AA=A	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0
+1	92	.	A	G	1000	PASS	AC=17;DP=1000;AA=A	GT	0|1	0|0	0|0	1|1	0|1	1|0	1|1	0|0	1|0	0|0	0|0	1|0	0|0	1|1	0|1	1|0	0|1	1|0	1|1	0|0

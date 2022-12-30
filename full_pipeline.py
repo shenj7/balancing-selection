@@ -2,9 +2,13 @@ from argparse import ArgumentParser
 import datetime
 import os
 import random
-from ..script_generator.generate_eidos_script import generate_eidos_script
 import sys
-from ..summary_statistic_calculator.dataframe_generator import create_statistics_csv
+import importlib
+#from script_generator.generate_eidos_script import generate_eidos_script
+#from summary_statistic_calculator.dataframe_generator import create_statistics_csv
+importlib.import_module('script_generator.generate_eidos_script', '.')
+importlib.import_module('summary_statistic_calculator.dataframe_generator', '.')
+
 """
 Entry point for generating multiple Eidos scripts
 Note: This is the main entry point for this script,
@@ -22,7 +26,8 @@ def command_line_parser(main_args):
     parser.add_argument('-n',
                         '--number_of_scripts',
                         required=True,
-                        help="Number of scripts to generate")
+                        help="Number of scripts to generate",
+                        type=int)
     parser.add_argument('-s',
                         '--seed',
                         default='0',
@@ -31,32 +36,32 @@ def command_line_parser(main_args):
                         '--minimum-selection_coefficient',
                         required=True,
                         help="minimum selection coefficient",
-                        type=int)
+                        type=float)
     parser.add_argument('-cr',
                         '--maximum-selection_coefficient',
                         required=True,
                         help="maximum selection coefficient",
-                        type=int)
+                        type=float)
     parser.add_argument('-ml',
                         '--minimum_mutation_rate',
                         required=True,
                         help="Minimum population mutation rate",
-                        type=int)
+                        type=float)
     parser.add_argument('-mr',
                         '--maximum_mutation_rate',
                         required=True,
                         help="Maximum population mutation rate",
-                        type=int)
+                        type=float)
     parser.add_argument('-rl',
                         '--minimum_recombination_rate',
                         required=True,
                         help="Minimum recombination rate",
-                        type=int)
+                        type=float)
     parser.add_argument('-rr',
                         '--maximum_recombination_rate',
                         required=True,
                         help="Maximum recombination rate",
-                        type=int)
+                        type=float)
     parser.add_argument('-pl',
                         '--minimum_population_size',
                         required=True,
@@ -96,7 +101,7 @@ def main(main_args=None):
     ├─ script_2
 
     """
-
+    print(os.getcwd())
     args = command_line_parser(main_args)
     # file output for results from simulations will be in args.directory/<guid>
     # quick thought: is a guid ok, or should we make smth more descriptive such as seed.mutation_rate.~~
@@ -113,7 +118,7 @@ def main(main_args=None):
                                             args.maximum_recombination_rate)
         population_size = random.randint(args.minimum_population_size,
                                          args.maximum_population_size)
-        selection_coefficient = random.randint(args.minimum_selection_coefficient,
+        selection_coefficient = random.uniform(args.minimum_selection_coefficient,
                                          args.maximum_selection_coefficient)
         filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
         filenames.append(filename)
@@ -124,8 +129,8 @@ def main(main_args=None):
                               output_location)
         os.system(f"{args.path_to_slim} {filename}")
 
-    for k in range(len(filenames)):     
-        stats_output_location = f"{args.stats_directory}/{filenames[k]}.csv" 
+    for k in range(len(filenames)):
+        stats_output_location = f"{args.stats_directory}/{filenames[k]}.csv"
         create_statistics_csv(vcf_files[k], args.size, stats_output_location)
 
 if __name__ == '__main__':
