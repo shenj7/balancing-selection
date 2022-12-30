@@ -66,10 +66,10 @@ def generate_genomic_element_type(element_name: str, mutation_type: str,
     return f"initializeGenomicElementType(\"{element_name}\", {mutation_type}, {mutation_ratio}, mutationMatrix);\n"
 
 
-def generate_overall_genome():  #could make size an input
+def generate_overall_genome(start_index, end_index):  #could make size an input
     # make random section generator that makes sections of a certain size
-    start_index = 33  # will make random but hardcode for now
-    end_index = 66
+    # start_index = 33  # will make random but hardcode for now
+    # end_index = 66
     return generate_genomic_element("g1", "0", str(start_index-1))\
         + generate_genomic_element("g2", str(start_index), str(end_index))\
             + generate_genomic_element("g1", str(end_index + 1), "99")

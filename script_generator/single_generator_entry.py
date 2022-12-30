@@ -31,6 +31,16 @@ def command_line_parser(main_args):
                         '--recombination_rate',
                         required=True,
                         help="Population mutation rate")
+    parser.add_argument('-ll',
+                        '--left_limit',
+                        required=True,
+                        help="Left limit for balancing selection locus",
+                        type=int)
+    parser.add_argument('-lr',
+                        '--right_limit',
+                        required=True,
+                        help="Right limit for balancing selection locus",
+                        type=int)
     parser.add_argument('-p',
                         '--population_size',
                         required=True,
@@ -47,8 +57,9 @@ def command_line_parser(main_args):
 def main(main_args=None):
     args = command_line_parser(main_args)
     generate_eidos_script(args.filename, args.seed, args.mutation_rate,
-                          args.recombination_rate, args.selection_coefficient, args.population_size,
-                          args.output_location)
+                          args.recombination_rate, args.selection_coefficient,
+                          args.left_limit, args.right_limit,
+                          args.population_size, args.output_location)
 
 
 if __name__ == '__main__':
