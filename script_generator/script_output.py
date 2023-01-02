@@ -10,7 +10,7 @@ def finish_simulation(filepath: str, population: str):
     """
     sample_size = 20  # sample size for sampleIndividuals
     return "10000 late() {\n" \
-        f"{population}.outputVCFSample(sampleSize={sample_size}, filePath=\"{filepath or uuid4()}\");" \
+        f"{population}.outputVCFSample(sampleSize={sample_size}, filePath=\"{filepath or uuid4()}\");\n" \
         "sim.simulationFinished();\n}\n"
         # f"g = {population}.sampleIndividuals({sample_size}).genomes;\n" \
         # f"g.outputVCF(filePath=\"{filepath or uuid4()}\", simplifyNucleotides=T);\n" \
