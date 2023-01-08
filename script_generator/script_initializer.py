@@ -1,6 +1,6 @@
 def initialize_script(seed: int, mutation_rate: float,
                       recombination_rate: float, selection_coefficient: str,
-                      left_limit: int, right_limit: int):
+                      left_limit: int, right_limit: int, genome_size: int):
     """
     Initializes the eidos script
 
@@ -8,14 +8,14 @@ def initialize_script(seed: int, mutation_rate: float,
         seed (float): randomizer seed
     """
     # TODO: what is the defineconstant?
-    constant_l = 100
+    constant_l = genome_size
     return "initialize() {\n" \
         f"setSeed({seed});\ndefineConstant(\"L\", {constant_l});\n" \
         f"mutationMatrix = mmJukesCantor({mutation_rate});\n" \
         "initializeSLiMOptions(nucleotideBased=T);\ninitializeAncestralNucleotides(randomNucleotides(L));\n" \
         f"{generate_all_mutation_types(selection_coefficient)}\n" \
         f"{generate_all_genomic_element_types()}\n" \
-        f"{generate_overall_genome(left_limit, right_limit)}\n" \
+        f"{generate_overall_genome(left_limit, right_limit, genome_size)}\n" \
         f"{generate_recombination_rate(recombination_rate)}\n" \
         "}\n"
 
@@ -66,13 +66,13 @@ def generate_genomic_element_type(element_name: str, mutation_type: str,
     return f"initializeGenomicElementType(\"{element_name}\", {mutation_type}, {mutation_ratio}, mutationMatrix);\n"
 
 
-def generate_overall_genome(start_index, end_index):  #could make size an input
+def generate_overall_genome(start_index, end_index, genome_size):  #could make size an input
     # make random section generator that makes sections of a certain size
     # start_index = 33  # will make random but hardcode for now
     # end_index = 66
     return generate_genomic_element("g1", "0", str(start_index-1))\
         + generate_genomic_element("g2", str(start_index), str(end_index))\
-            + generate_genomic_element("g1", str(end_index + 1), "99")
+            + generate_genomic_element("g1", str(end_index + 1), str(genome_size-1))
 
 
 def generate_genomic_element(element_type: str, start: int, end: int):
