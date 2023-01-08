@@ -8,7 +8,7 @@ def initialize_script(seed: int, mutation_rate: float,
         seed (float): randomizer seed
     """
     # TODO: what is the defineconstant?
-    constant_l = 100
+    constant_l = genome_size
     return "initialize() {\n" \
         f"setSeed({seed});\ndefineConstant(\"L\", {constant_l});\n" \
         f"mutationMatrix = mmJukesCantor({mutation_rate});\n" \
@@ -72,7 +72,7 @@ def generate_overall_genome(start_index, end_index, genome_size):  #could make s
     # end_index = 66
     return generate_genomic_element("g1", "0", str(start_index-1))\
         + generate_genomic_element("g2", str(start_index), str(end_index))\
-            + generate_genomic_element("g1", str(end_index + 1), str(genome_size))
+            + generate_genomic_element("g1", str(end_index + 1), str(genome_size-1))
 
 
 def generate_genomic_element(element_type: str, start: int, end: int):
