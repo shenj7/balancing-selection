@@ -91,7 +91,16 @@ def command_line_parser(main_args):
                         required=True,
                         help="Maximum population size",
                         type=int)
-
+    parser.add_argument('-gr',
+                        '--maximum_genome_size',
+                        required=True,
+                        help="Maximum genome size",
+                        type=int)
+    parser.add_argument('-gl',
+                        '--minimum_genome_size',
+                        required=True,
+                        help="Maximum genome size",
+                        type=int)
     args = parser.parse_args(main_args)
     return args
 
@@ -124,6 +133,8 @@ def main(main_args=None):
         selection_coefficient = random.uniform(
             args.minimum_selection_coefficient,
             args.maximum_selection_coefficient)
+        genome_size = random.randint(args.minimum_genome_size,
+                                    args.maximum_genome_size)
         left_limit = random.randint(args.minimum_left_limit,
                                     args.maximum_left_limit)
         right_limit = random.randint(args.minimum_right_limit,
@@ -135,7 +146,7 @@ def main(main_args=None):
         generate_eidos_script(filename, seed, mutation_rate,
                               recombination_rate, selection_coefficient,
                               left_limit, right_limit,
-                              population_size, output_location)
+                              population_size, genome_size, output_location)
 
 
 if __name__ == '__main__':
