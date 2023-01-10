@@ -1,13 +1,16 @@
 from argparse import ArgumentParser
-from dataframe_generator import create_statistics_csv
+from dataframe_generator import create_statistics_csv_from_file
+from dataframe_generator import create_statistics_csv_from_directory
 import sys
 
 def command_line_parser(main_args):
     parser = ArgumentParser(description="Calculates summary statistics")
     parser.add_argument('-f',
                         '--filename',
-                        required=True,
                         help="Location of vcf file",)
+    parser.add_argument('-d',
+                        '--directory',
+                        help="directory of vcf files")
     parser.add_argument('-s',
                         '--size',
                         default='10',
@@ -33,7 +36,10 @@ def command_line_parser(main_args):
 
 def main(main_args=None):
     args = command_line_parser(main_args)
-    create_statistics_csv(args.filename, args.size, args.output, args.balancing_left, args.balancing_right)
+    if args.filename == None:
+        create_statistics_csv_from_directory(args.directory, args.size, args.output, args.balancing_left, args.balancing_right)
+    else:
+        create_statistics_csv_from_file(args.filename, args.size, args.output, args.balancing_left, args.balancing_right)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
