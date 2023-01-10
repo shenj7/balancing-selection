@@ -13,49 +13,52 @@ def read_vcf(input):
     """
     return allel.read_vcf(input)
 
-def calculate_windowed_garud_h(vcf_dict, windowSize, windows):
-    """calculates windowed garud statistics
+def calculate_windowed_garud_h(vcf_dict, windows):
+    """calculates the garud h statistics
 
     Args:
-        vcf_dict (_type_): _description_
-        windowSize (_type_): _description_
-    
-    Returns:
+        vcf_dict (dictionary): the vcf file
+        windows (array): the windows 
 
+    Returns:
+        h1 (ndarray): h1
+        h12 (ndarray): h12
+        h123 (ndarray): h123
+        h1/h2 (ndarray): h1/h2
     """
     g = allel.GenotypeArray(vcf_dict['calldata/GT'])
     hap = g.to_haplotypes()
     pos = vcf_dict['variants/POS']
-    gh, windows, counts = allel.windowed_statistic(pos, hap, allel.garud_h, windowSize, windows=windows)
+    gh, windows, counts = allel.windowed_statistic(pos, hap, allel.garud_h, windows=windows)
 
     h1 = gh[:, 0]
     h12 = gh[:, 1]
     h123 = gh[:, 2]
     h2_h1 = gh[:, 3]
-    return h1, h12, h123, h2_h1, windows, counts
+    return h1, h12, h123, h2_h1
 
-def calculate_windowed_tajima_d(vcf_dict, windowSize, windows):
+def calculate_windowed_tajima_d(vcf_dict, windows):
     """calculates the windowed tajima d
 
     Args:
         vcf_dict (dict): the vcf dict
-        windowSize (int): the size of the windows for the windowed statistic calculation
+        windows (array): the windows 
 
     Returns:
-        ndarray: moving tajima d
+        ndarray: tajima d
     """
     g = allel.GenotypeArray(vcf_dict['calldata/GT'])
     ac = g.count_alleles()
     pos = vcf_dict['variants/POS']
-    d, windows, counts = allel.windowed_tajima_d(pos, ac, windowSize, windows=windows)
-    return d, windows, counts
+    D, windows, counts = allel.windowed_tajima_d(pos, ac, windows=windows)
+    return D
 
-def calculate_windowed_pi(vcf_dict, windowSize):
+def calculate_windowed_pi(vcf_dict, windows):
     """calculates the windowed pi
 
     Args:
         vcf_dict (dict): the vcf dict
-        windowSize (int): the size of the windows for the windowed statistic calculation
+        windows (array): the windows 
 
     Returns:
         
@@ -63,15 +66,15 @@ def calculate_windowed_pi(vcf_dict, windowSize):
     g = allel.GenotypeArray(vcf_dict['calldata/GT'])
     ac = g.count_alleles()
     pos = vcf_dict['variants/POS']
-    pi, windows, n_bases, counts = allel.windowed_diversity(pos, ac, size=windowSize)
-    return pi, windows, n_bases, counts
+    pi, windows, n_bases, counts = allel.windowed_diversity(pos, ac, windows=windows)
+    return pi
 
-def calculate_windowed_watterson_theta(vcf_dict, windowSize, windows):
+def calculate_windowed_watterson_theta(vcf_dict, windows):
     """calculates the windowed watterson theta
 
     Args:
         vcf_dict (dict): the vcf dict
-        windowSize (int): the size of the windows for the windowed statistic calculation
+        windows (array): the windows 
 
     Returns:
         
@@ -79,8 +82,8 @@ def calculate_windowed_watterson_theta(vcf_dict, windowSize, windows):
     g = allel.GenotypeArray(vcf_dict['calldata/GT'])
     ac = g.count_alleles()
     pos = vcf_dict['variants/POS']
-    watterson_theta, windows, n_bases, counts = allel.windowed_watterson_theta(pos, ac, windowSize, windows=windows)
-    return watterson_theta, windows, n_bases, counts
+    watterson_theta, windows, n_bases, counts = allel.windowed_watterson_theta(pos, ac, windows=windows)
+    return watterson_theta
 
 def calculate_balancing_selection(windows, balancing_left, balancing_right):
     """calculates the sections for balancing selection in the windows
@@ -103,19 +106,40 @@ def calculate_balancing_selection(windows, balancing_left, balancing_right):
             balancing_selection.append(2)
     return balancing_selection
 
-def calculate_windows(windows):
-    """calculates the left and right sides of the windows
+def calculate_windows(vcf_dict, windowSize):
+    """calculate the windows
 
     Args:
-        windows (_type_): the windows that the summary statistics have been calculated in
+        vcf_dict (dictionary): the vcf file
+        windowSize (int): the window size
 
     Returns:
-        windowsl (array): the left end points of the windows
-        windowsr (array): the right end points of the windows
+        array: left side of windows
+        array: right side of windows
+        array: windows
     """
+    pos = vcf_dict['variants/POS']
+    windows = []
     windowsl = []
     windowsr = []
-    for window in windows:
-        windowsl.append(window[0])
-        windowsr.append(window[1])
-    return windowsl, windowsr
+    i = 0
+    j = i + windowSize - 1
+    if j >= len(pos):
+        windowsl.append(pos[i])
+        windowsr.append(pos[len(pos) - 1])
+        windows.append([pos[i], pos[len(pos) - 1]])
+    else:
+        while j < len(pos):
+            windowsl.append(pos[i])
+            windowsr.append(pos[j])
+            windows.append([pos[i], pos[j]])
+            i += windowSize
+            j += windowSize
+        if i == len(pos) - 1:
+            windowsr[len(windowsr) - 1] = pos[i]
+            windows[len(windows) - 1][1] = pos[i]
+        elif i < len(pos):
+            windowsl.append(pos[i])
+            windowsr.append(pos[len(pos) - 1])
+            windows.append([pos[i], pos[len(pos) - 1]])
+    return windows, windowsl, windowsr
