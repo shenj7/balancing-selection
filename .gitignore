@@ -1,3 +1,4 @@
 __pycache__/
-/vcf_files
-/runs
+vcf_files/
+summary_statistics_csv_files/
+runs/
