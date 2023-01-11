@@ -2,3 +2,4 @@ __pycache__/
 vcf_files/
 summary_statistics_csv_files/
 runs/
+generated_forests/
