@@ -20,6 +20,7 @@ def create_statistics_data_frame(vcf_dict, windowSize, balancing_left, balancing
     h1, h12, h123, h2_h1 = calc.calculate_windowed_garud_h(vcf_dict, windows)
 
     balancing_selection = calc.calculate_balancing_selection(windows, balancing_left, balancing_right)
+    balancing_selection_binary = calc.calculate_balancing_selection_binary(windows, balancing_left, balancing_right)
 
     d = { 
           'Pi': pi, 
@@ -30,6 +31,7 @@ def create_statistics_data_frame(vcf_dict, windowSize, balancing_left, balancing
           'h123': h123, 
           'h2_h1': h2_h1, 
           'bs': balancing_selection, 
+          'bsb': balancing_selection_binary,
           'left_window': windowsl, 
           'right_window': windowsr 
           }
