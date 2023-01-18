@@ -106,6 +106,26 @@ def calculate_balancing_selection(windows, balancing_left, balancing_right):
             balancing_selection.append(2)
     return balancing_selection
 
+def calculate_balancing_selection_binary(windows, balancing_left, balancing_right):
+    balancing_selection_binary = []
+    for window in windows:
+        if window[1] < balancing_left or window[0] > balancing_right:
+            balancing_selection_binary.append(0)
+        elif window[0] >= balancing_left and window[1] <= balancing_right:
+            balancing_selection_binary.append(1)
+        else:
+            if window[0] < balancing_left:
+                if window[1] - balancing_left > balancing_left - window[0]:
+                    balancing_selection_binary.append(1)
+                else:
+                    balancing_selection_binary.append(0)
+            else:
+                if  balancing_right - window[0] > window[1] - balancing_right:
+                    balancing_selection_binary.append(1)
+                else:
+                    balancing_selection_binary.append(0)
+    return balancing_selection_binary
+
 def calculate_windows(vcf_dict, windowSize):
     """calculate the windows
 
