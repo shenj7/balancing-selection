@@ -156,9 +156,9 @@ def main(main_args=None):
                                      #TODO: do we need an argument to make sure its not too big or small,
                                      #        or will it be okay to have that naturally limited by the limits?
         filename = f"{datetime.datetime.now().date()}_{mutation_rate}_{recombination_rate}_{population_size}_{seed}"  # TODO
-        param_file = f"{args.directory}/params/{filename}_params"
+        param_file = f"{args.directoryt}/params/{filename}_params"
         pf = open(param_file, "w+")
-        pf.write("Mutation rate, Recombination rate, Left limit, Right limit, Selection coefficient, Dominance coefficient")
+        pf.write("Mutation rate, Recombination rate, Left limit, Right limit, Selection coefficient, Dominance coefficient\n")
         pf.write(f"{mutation_rate}, {recombination_rate}, {left_limit}, {right_limit}, {selection_coefficient}, {dominance_coefficient}\n")
         output_location = f"{args.directory}/outputs/{filename}.vcf"
         generate_eidos_script(filename, seed, mutation_rate,
