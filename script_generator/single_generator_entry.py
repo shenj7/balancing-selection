@@ -23,6 +23,11 @@ def command_line_parser(main_args):
                         '--selection_coefficient',
                         default='0.001',
                         help="Selection coefficient")
+    parser.add_argument('-d',
+                        '--dominance_coefficient',
+                        required=True,
+                        help="dominance coefficient",
+                        type=float)
     parser.add_argument('-m',
                         '--mutation_rate',
                         required=True,
@@ -45,6 +50,11 @@ def command_line_parser(main_args):
                         '--population_size',
                         required=True,
                         help="Population size")
+    parser.add_argument('-g',
+                        '--genome_size',
+                        required=True,
+                        help="genome size",
+                        type=int)
     parser.add_argument('-o',
                         '--output_location',
                         required=True,
@@ -57,7 +67,7 @@ def command_line_parser(main_args):
 def main(main_args=None):
     args = command_line_parser(main_args)
     generate_eidos_script(args.filename, args.seed, args.mutation_rate,
-                          args.recombination_rate, args.selection_coefficient,
+                          args.recombination_rate, args.selection_coefficient, args.dominance_coefficient,
                           args.left_limit, args.right_limit,
                           args.population_size, args.output_location)
 

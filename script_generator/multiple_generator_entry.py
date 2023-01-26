@@ -22,14 +22,24 @@ def command_line_parser(main_args):
                         required=True,
                         help="Output directory for Eidos scripts")
     parser.add_argument('-cl',
-                        '--minimum-selection_coefficient',
+                        '--minimum_selection_coefficient',
                         required=True,
                         help="minimum selection coefficient",
                         type=float)
     parser.add_argument('-cr',
-                        '--maximum-selection_coefficient',
+                        '--maximum_selection_coefficient',
                         required=True,
                         help="maximum selection coefficient",
+                        type=float)
+    parser.add_argument('-dl',
+                        '--minimum_dominance_coefficient',
+                        required=True,
+                        help="minimum dominance coefficient",
+                        type=float)
+    parser.add_argument('-dr',
+                        '--maximum_dominance_coefficient',
+                        required=True,
+                        help="maximum dominance coefficient",
                         type=float)
     parser.add_argument('-n',
                         '--number_of_scripts',
@@ -121,6 +131,7 @@ def main(main_args=None):
     # quick thought: is a guid ok, or should we make smth more descriptive such as seed.mutation_rate.~~
     os.system(f"mkdir {args.directory}")
     os.system(f"mkdir {args.directory}/outputs")
+    os.system(f"mkdir {args.directory}/params")
     random.seed(args.seed)
     for _ in range(args.number_of_scripts):
         seed = random.randint(0, 10000000)
@@ -133,6 +144,9 @@ def main(main_args=None):
         selection_coefficient = random.uniform(
             args.minimum_selection_coefficient,
             args.maximum_selection_coefficient)
+        dominance_coefficient = random.uniform(
+            args.minimum_dominance_coefficient,
+            args.maximum_dominance_coefficient)
         genome_size = random.randint(args.minimum_genome_size,
                                     args.maximum_genome_size)
         left_limit = random.randint(args.minimum_left_limit,
@@ -142,12 +156,13 @@ def main(main_args=None):
                                      #TODO: do we need an argument to make sure its not too big or small,
                                      #        or will it be okay to have that naturally limited by the limits?
         filename = f"{datetime.datetime.now().date()}_{mutation_rate}_{recombination_rate}_{population_size}_{seed}"  # TODO
-        param_file = f"params_{filename}"
-        pf = open(param_file, "x")
-        pf.write(left_limit, right_limit)
+        param_file = f"{args.directory}/params/{filename}_params"
+        pf = open(param_file, "w+")
+        pf.write("Mutation rate, Recombination rate, Left limit, Right limit, Selection coefficient, Dominance coefficient")
+        pf.write(f"{mutation_rate}, {recombination_rate}, {left_limit}, {right_limit}, {selection_coefficient}, {dominance_coefficient}\n")
         output_location = f"{args.directory}/outputs/{filename}.vcf"
         generate_eidos_script(filename, seed, mutation_rate,
-                              recombination_rate, selection_coefficient,
+                              recombination_rate, selection_coefficient, dominance_coefficient,
                               left_limit, right_limit,
                               population_size, genome_size, output_location)
 
