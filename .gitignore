@@ -3,3 +3,5 @@ vcf_files/
 summary_statistics_csv_files/
 runs/
 generated_forests/
+generated_naive_bayes/
+.idea/
