@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from pathlib import Path as pt
-from sklearn.naive_bayes import BernoulliNB as bnb
+from sklearn.naive_bayes import GaussianNB as bnb
 from sklearn.model_selection import train_test_split
 import joblib
 
