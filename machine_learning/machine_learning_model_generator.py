@@ -1,7 +1,5 @@
-import numpy as np
 import pandas as pd
 from pathlib import Path as pt
-from sklearn.naive_bayes import GaussianNB as bnb
 from sklearn.model_selection import train_test_split
 import joblib
 
@@ -47,33 +45,30 @@ def find_TN(true, pred):
     return sum((true == 0) & (pred == 0))
 
 
-def calculate_accuracy(forest, features_test, target_test):
-    pred_test = forest.predict(features_test)
+def calculate_accuracy(model, features_test, target_test):
+    pred_test = model.predict(features_test)
     accuracy = (find_TP(target_test, pred_test) + find_TN(target_test, pred_test))/(find_TP(target_test, pred_test) + find_TN(target_test, pred_test) + find_FP(target_test, pred_test) + find_FN(target_test, pred_test))
     return accuracy
 
 
-def calculate_precision(forest, features_test, target_test):
-    pred_test = forest.predict(features_test)
+def calculate_precision(model, features_test, target_test):
+    pred_test = model.predict(features_test)
     precision = find_TP(target_test, pred_test)/(find_TP(target_test, pred_test) + find_FP(target_test, pred_test))
     return precision
 
 
-def calculate_recall(forest, features_test, target_test):
-    pred_test = forest.predict(features_test)
+def calculate_recall(model, features_test, target_test):
+    pred_test = model.predict(features_test)
     recall = find_TP(target_test, pred_test)/(find_TP(target_test, pred_test) + find_FN(target_test, pred_test))
     return recall
 
 
-def calculate_f1(forest, features_test, target_test):
-    f1 = (2 * (calculate_precision(forest, features_test, target_test) * calculate_recall(forest, features_test, target_test)))/(calculate_precision(forest, features_test, target_test) + calculate_recall(forest, features_test, target_test))
+def calculate_f1(model, features_test, target_test):
+    f1 = (2 * (calculate_precision(model, features_test, target_test) * calculate_recall(model, features_test, target_test))) / (calculate_precision(model, features_test, target_test) + calculate_recall(model, features_test, target_test))
     return f1
 
-# def plot_roc_curve(forest, features_test, target_test):
-#     plot_roc_curve(forest, features_test, target_test)
 
-
-def create_naive_bayes(dir):
+def create_machine_learning_model(dir, model, output_name):
     df = create_frame(dir)
 
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
@@ -81,16 +76,11 @@ def create_naive_bayes(dir):
 
     features_train, features_test, target_train, target_test = create_train_and_test_data(features, target, 1)
 
-    nb = bnb()
-    nb.fit(features_train, target_train)
+    model.fit(features_train, target_train)
 
-    print('Accuracy:', calculate_accuracy(nb, features_test, target_test))
-    print('Precision:', calculate_precision(nb, features_test, target_test))
-    print('Recall:', calculate_recall(nb, features_test, target_test))
-    print('F1:', calculate_f1(nb, features_test, target_test))
+    print('Accuracy:', calculate_accuracy(model, features_test, target_test))
+    print('Precision:', calculate_precision(model, features_test, target_test))
+    print('Recall:', calculate_recall(model, features_test, target_test))
+    print('F1:', calculate_f1(model, features_test, target_test))
 
-    # plot_roc_curve(forest, features_test, target_test)
-
-    joblib.dump(nb, './generated_naive_bayes/nb1.pkl')
-
-    return nb
+    joblib.dump(model, output_name)
