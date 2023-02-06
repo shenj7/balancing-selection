@@ -70,19 +70,14 @@ def calculate_f1(model, features_test, target_test):
 
 def create_test_output(model, features_test, target_test, test_output):
     pred_test = model.predict(features_test)
-    print(len(target_test))
-    print(len(pred_test))
-    # features_test[['bsb_true', 'bsb_pred']] = pd.DataFrame([[target_test, pred_test]], index=features_test.index)
     features_test['bsb_true'] = target_test
     features_test['bsb_predicted'] = pred_test
-    # output_df = features_test
 
     features_test.to_csv(test_output)
 
 
 def create_machine_learning_model(dir, model, output_name, test_output):
     df = create_frame(dir)
-    print(df)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
     target = df['bsb']
 
