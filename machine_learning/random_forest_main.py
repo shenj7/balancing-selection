@@ -7,7 +7,7 @@ def main(main_args=None):
     args = command_line_parser(main_args)
 
     forest = rf()
-    create_machine_learning_model(args.directory, forest, './generated_forests/forest1.pkl')
+    create_machine_learning_model(args.directory, forest, './generated_forests/forest1.pkl', './generated_forests/forest1.csv')
 
 
 if __name__ == '__main__':
