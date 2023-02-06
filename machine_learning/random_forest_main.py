@@ -8,7 +8,7 @@ import numpy as np
 
 
 def calculate_forest_feature_importance(forest):
-    feature_names = ['Unnamed: 0', 'Pi', 'watterson_theta', 'tajima_d', 'h1', 'h12', 'h123', 'h2_h1']
+    feature_names = ['Pi', 'watterson_theta', 'tajima_d', 'h1', 'h12', 'h123', 'h2_h1']
     importances = forest.feature_importances_
     std = np.std([tree.feature_importances_ for tree in forest.estimators_], axis=0)
     forest_importances = pd.Series(importances, index=feature_names)

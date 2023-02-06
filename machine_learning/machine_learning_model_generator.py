@@ -15,6 +15,7 @@ def create_frame(dir):
             created = True
         else:
             summary = pd.concat([summary, df], ignore_index=True)
+    summary = summary.drop(['Unnamed: 0'], axis=1)
     return summary.dropna()
 
 
