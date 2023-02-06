@@ -40,6 +40,7 @@ def create_statistics_data_frame(vcf_dict, windowSize, balancing_left, balancing
 
     return df
 
+
 def create_statistics_csv_from_file(vcf_file, windowSize, output, balancing_left, balancing_right):
     """creates the statistics csv
 
@@ -51,6 +52,7 @@ def create_statistics_csv_from_file(vcf_file, windowSize, output, balancing_left
     vcf_dict = calc.read_vcf(vcf_file)
     df = create_statistics_data_frame(vcf_dict, windowSize, balancing_left, balancing_right)
     df.to_csv(output)
+
 
 def create_statistics_csv_from_directory(directory, windowSize, output, balancing_left, balancing_right):
     for filename in os.listdir(directory):

@@ -7,7 +7,7 @@ from machine_learning_command_line_parser import command_line_parser
 def main(main_args=None):
     args = command_line_parser(main_args)
     nb_classifier = bnb()
-    create_machine_learning_model(args.directory, nb_classifier, './generated_naive_bayes/nb1.pkl')
+    create_machine_learning_model(args.directory, nb_classifier, './generated_naive_bayes/nb1.pkl', './generated_naive_bayes/nb1.csv')
 
 
 if __name__ == '__main__':

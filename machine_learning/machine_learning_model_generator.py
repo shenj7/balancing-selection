@@ -14,7 +14,7 @@ def create_frame(dir):
             summary=df
             created = True
         else:
-            summary = summary.append(df, ignore_index=True)
+            summary = pd.concat([summary, df], ignore_index=True)
     return summary.dropna()
 
 
@@ -68,9 +68,16 @@ def calculate_f1(model, features_test, target_test):
     return f1
 
 
-def create_machine_learning_model(dir, model, output_name):
-    df = create_frame(dir)
+def create_test_output(model, features_test, target_test, test_output):
+    pred_test = model.predict(features_test)
+    features_test['bsb_true'] = target_test
+    features_test['bsb_predicted'] = pred_test
 
+    features_test.to_csv(test_output)
+
+
+def create_machine_learning_model(dir, model, output_name, test_output):
+    df = create_frame(dir)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
     target = df['bsb']
 
@@ -82,5 +89,7 @@ def create_machine_learning_model(dir, model, output_name):
     print('Precision:', calculate_precision(model, features_test, target_test))
     print('Recall:', calculate_recall(model, features_test, target_test))
     print('F1:', calculate_f1(model, features_test, target_test))
+
+    create_test_output(model, features_test, target_test, test_output)
 
     joblib.dump(model, output_name)
