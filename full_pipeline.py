@@ -81,6 +81,16 @@ def command_line_parser(main_args):
                         nargs="+",
                         help="Maximum population size",
                         type=int)
+    parser.add_argument('-dl',
+                        '--minimum_dominance_coefficient',
+                        required=True,
+                        help="minimum dominance coefficient",
+                        type=float)
+    parser.add_argument('-dr',
+                        '--maximum_dominance_coefficient',
+                        required=True,
+                        help="maximum dominance coefficient",
+                        type=float)
     parser.add_argument('-sz',
                         '--size',
                         default='10',
@@ -129,7 +139,9 @@ def main(main_args=None):
             population_size = random.randint(args.minimum_population_size[i],
                                              args.maximum_population_size[i])
             selection_coefficient = random.uniform(args.minimum_selection_coefficient[i],
-                                             args.maximum_selection_coefficient[i])
+                                                   args.maximum_selection_coefficient[i])
+            dominance_coefficient = random.uniform(args.minimum_dominance_coefficient[i],
+                                                   args.maximum_dominance_coefficient[i])
             filename = f"big_scripts/{args.directory[i]}/{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
             output_location = f"big_scripts/{args.directory[i]}/outputs/{filename}.vcf"
             vcf_files.append(output_location)
