@@ -4,8 +4,6 @@ import os
 import random
 import sys
 import importlib
-#from script_generator.generate_eidos_script import generate_eidos_script
-#from summary_statistic_calculator.dataframe_generator import create_statistics_csv
 importlib.import_module('script_generator.generate_eidos_script', '.')
 importlib.import_module('summary_statistic_calculator.dataframe_generator', '.')
 
@@ -22,64 +20,77 @@ def command_line_parser(main_args):
     parser.add_argument('-d',
                         '--directory',
                         required=True,
+                        nargs=
                         help="Eidos script directory")
     parser.add_argument('-n',
                         '--number_of_scripts',
                         required=True,
+                        nargs="+",
                         help="Number of scripts to generate",
                         type=int)
     parser.add_argument('-s',
                         '--seed',
                         default='0',
+                        nargs="+",
                         help="Random seed for Eidos script")
     parser.add_argument('-cl',
                         '--minimum-selection_coefficient',
                         required=True,
+                        nargs="+",
                         help="minimum selection coefficient",
                         type=float)
     parser.add_argument('-cr',
                         '--maximum-selection_coefficient',
                         required=True,
+                        nargs="+",
                         help="maximum selection coefficient",
                         type=float)
     parser.add_argument('-ml',
                         '--minimum_mutation_rate',
-                        required=True,
+                        required=True
+                        nargs="+",
                         help="Minimum population mutation rate",
                         type=float)
     parser.add_argument('-mr',
                         '--maximum_mutation_rate',
                         required=True,
+                        nargs="+",
                         help="Maximum population mutation rate",
                         type=float)
     parser.add_argument('-rl',
                         '--minimum_recombination_rate',
                         required=True,
+                        nargs="+",
                         help="Minimum recombination rate",
                         type=float)
     parser.add_argument('-rr',
                         '--maximum_recombination_rate',
                         required=True,
+                        nargs="+",
                         help="Maximum recombination rate",
                         type=float)
     parser.add_argument('-pl',
                         '--minimum_population_size',
                         required=True,
+                        nargs="+",
                         help="Minimum population size",
                         type=int)
     parser.add_argument('-pr',
                         '--maximum_population_size',
                         required=True,
+                        nargs="+",
                         help="Maximum population size",
                         type=int)
     parser.add_argument('-sz',
                         '--size',
                         default='10',
+                        nargs="+",
                         help="Window size of windows",
                         type=int)
     parser.add_argument('-sd',
                         '--stats_directory',
                         required=True,
+                        nargs="+",
                         help="Output directory for stats csv")
     parser.add_argument('-ps',
                         '--path_to_slim',
@@ -101,33 +112,31 @@ def main(main_args=None):
     ├─ script_2
 
     """
-    print(os.getcwd())
     args = command_line_parser(main_args)
     # file output for results from simulations will be in args.directory/<guid>
     # quick thought: is a guid ok, or should we make smth more descriptive such as seed.mutation_rate.~~
-    os.system(f"mkdir {args.directory}")
-    os.system(f"mkdir {args.directory}/outputs")
-    random.seed(args.seed)
-    vcf_files = []
-    filenames = []
-    for _ in range(args.number_of_scripts):
-        seed = random.randint(0, 100000)
-        mutation_rate = random.uniform(args.minimum_mutation_rate,
-                                       args.maximum_mutation_rate)
-        recombination_rate = random.uniform(args.minimum_recombination_rate,
-                                            args.maximum_recombination_rate)
-        population_size = random.randint(args.minimum_population_size,
-                                         args.maximum_population_size)
-        selection_coefficient = random.uniform(args.minimum_selection_coefficient,
-                                         args.maximum_selection_coefficient)
-        filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
-        filenames.append(filename)
-        output_location = f"{args.directory}/{filename}.vcf"
-        vcf_files.append(output_location)
-        generate_eidos_script(filename, seed, mutation_rate,
-                              recombination_rate, selection_coefficient, population_size,
-                              output_location)
-        os.system(f"{args.path_to_slim} {filename}")
+    os.system(f"mkdir big_scripts")
+
+    for i, seed in enumerate(args.seed):
+        random.seed(args.seed)
+        for _ in range(args.number_of_scripts[i]):
+            os.system(f"mkdir big_scripts/{args.directory[i]}")
+            os.system(f"mkdir big_scripts/{args.directory[i]}/outputs")
+            mutation_rate = random.uniform(args.minimum_mutation_rate[i],
+                                           args.maximum_mutation_rate[i])
+            recombination_rate = random.uniform(args.minimum_recombination_rate[i],
+                                                args.maximum_recombination_rate[i])
+            population_size = random.randint(args.minimum_population_size[i],
+                                             args.maximum_population_size[i])
+            selection_coefficient = random.uniform(args.minimum_selection_coefficient[i],
+                                             args.maximum_selection_coefficient[i])
+            filename = f"big_scripts/{args.directory[i]}/{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
+            output_location = f"big_scripts/{args.directory[i]}/outputs/{filename}.vcf"
+            vcf_files.append(output_location)
+            generate_eidos_script(filename, seed, mutation_rate,
+                                  recombination_rate, selection_coefficient, population_size,
+                                  output_location)
+            os.system(f"{args.path_to_slim} {filename}")
 
     for k in range(len(filenames)):
         stats_output_location = f"{args.stats_directory}/{filenames[k]}.csv"
