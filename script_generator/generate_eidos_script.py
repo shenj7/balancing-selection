@@ -1,4 +1,4 @@
-from script_initializer import initialize_script
+from script_generator import initialize_script
 from script_add_population import add_population
 from script_output import finish_simulation
 from script_mutation_effect import add_mutation_effect
