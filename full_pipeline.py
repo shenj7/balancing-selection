@@ -133,13 +133,11 @@ def command_line_parser(main_args):
     parser.add_argument('-sz',
                         '--size',
                         default='10',
-                        nargs="+",
                         help="Window size of windows",
                         type=int)
     parser.add_argument('-sd',
                         '--stats_directory',
                         required=True,
-                        nargs="+",
                         help="Output directory for stats csv")
     parser.add_argument('-ps',
                         '--path_to_slim',
@@ -203,9 +201,10 @@ def main(main_args=None):
                                   population_size, genome_size, output_location)
             os.system(f"{args.path_to_slim} {filename}")
 
+        os.system(f'mkdir big_scripts/{args.stats_directory}')
         for k in range(len(filenames)):
-            stats_output_location = f"{args.stats_directory}/{filenames[k]}.csv"
-            create_statistics_csv(vcf_files[k], args.size[0], stats_output_location, bs_ranges[k][0], bs_ranges[k][1])
+            stats_output_location = f"big_scripts/{args.stats_directory}/{filenames[k]}.csv"
+            create_statistics_csv(vcf_files[k], args.size, stats_output_location, bs_ranges[k][0], bs_ranges[k][1])
 
 if __name__ == '__main__':
     main(sys.argv[1:])
