@@ -3,7 +3,6 @@ import datetime
 import os
 import random
 import sys
-import importlib
 
 from script_generator import generate_eidos_script
 from summary_statistic_calculator import create_statistics_csv_from_file
