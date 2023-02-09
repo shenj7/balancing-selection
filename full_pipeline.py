@@ -5,8 +5,8 @@ import random
 import sys
 import importlib
 
-from script_generator.generate_eidos_script import generate_eidos_script
-from summary_statistic_calculator.dataframe_generator import create_statistics_csv_from_file
+from script_generator import generate_eidos_script
+from summary_statistic_calculator import create_statistics_csv_from_file
 
 # importlib.import_module('script_generator.generate_eidos_script', '.')
 # importlib.import_module('summary_statistic_calculator.dataframe_generator', '.')
