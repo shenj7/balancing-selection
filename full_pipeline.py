@@ -170,7 +170,7 @@ def main(main_args=None):
 
 
     for i, seed in enumerate(args.seed):
-        random.seed(args.seed)
+        random.seed(seed)
         filenames = []
         vcf_files = []
         bs_ranges = []
