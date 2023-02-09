@@ -3,6 +3,7 @@ import datetime
 import os
 import random
 import sys
+import threading
 
 from script_generator import generate_eidos_script
 from summary_statistic_calculator import create_statistics_csv_from_file
@@ -193,10 +194,11 @@ def main(main_args=None):
                                          args.maximum_right_limit[i])
             genome_size = random.randint(args.minimum_genome_size[i],
                                          args.maximum_genome_size[i])
-            filename = f"big_scripts/{args.directory[i]}/{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
+            filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
             filenames.append(filename)
             bs_ranges.append([left_limit, right_limit])
             output_location = f"big_scripts/{args.directory[i]}/outputs/{filename}.vcf"
+            filename = f"big_scripts/{args.directory[i]}/{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"
             vcf_files.append(output_location)
             generate_eidos_script(filename, seed, mutation_rate,
                                   recombination_rate, selection_coefficient, dominance_coefficient,
@@ -208,6 +210,7 @@ def main(main_args=None):
         for k in range(len(filenames)):
             stats_output_location = f"big_scripts/{args.stats_directory}/{filenames[k]}.csv"
             create_statistics_csv_from_file(vcf_files[k], args.size, stats_output_location, bs_ranges[k][0], bs_ranges[k][1])
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])
