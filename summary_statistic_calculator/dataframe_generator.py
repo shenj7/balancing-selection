@@ -1,6 +1,7 @@
 import pandas as pd
-import calculations as calc
+from summary_statistic_calculator import calculations as calc
 import os
+
 
 def create_statistics_data_frame(vcf_dict, windowSize, balancing_left, balancing_right):
     """creates the dataframe of statistics
