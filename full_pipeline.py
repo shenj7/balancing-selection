@@ -4,8 +4,12 @@ import os
 import random
 import sys
 import importlib
-importlib.import_module('script_generator.generate_eidos_script', '.')
-importlib.import_module('summary_statistic_calculator.dataframe_generator', '.')
+
+from script_generator.generate_eidos_script import generate_eidos_script
+from summary_statistic_calculator.dataframe_generator import create_statistics_csv_from_file
+
+# importlib.import_module('script_generator.generate_eidos_script', '.')
+# importlib.import_module('summary_statistic_calculator.dataframe_generator', '.')
 
 """
 Entry point for generating multiple Eidos scripts
@@ -204,7 +208,7 @@ def main(main_args=None):
         os.system(f'mkdir big_scripts/{args.stats_directory}')
         for k in range(len(filenames)):
             stats_output_location = f"big_scripts/{args.stats_directory}/{filenames[k]}.csv"
-            create_statistics_csv(vcf_files[k], args.size, stats_output_location, bs_ranges[k][0], bs_ranges[k][1])
+            create_statistics_csv_from_file(vcf_files[k], args.size, stats_output_location, bs_ranges[k][0], bs_ranges[k][1])
 
 if __name__ == '__main__':
     main(sys.argv[1:])
