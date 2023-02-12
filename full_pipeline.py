@@ -177,6 +177,7 @@ def main(main_args=None):
         bs_ranges = []
         os.system(f"mkdir big_scripts/{args.directory[i]}")
         os.system(f"mkdir big_scripts/{args.directory[i]}/outputs")
+        os.system(f'mkdir big_scripts/{args.stats_directory}')
         for _ in range(args.number_of_scripts[i]):
             mutation_rate = random.uniform(args.minimum_mutation_rate[i],
                                            args.maximum_mutation_rate[i])
@@ -206,7 +207,6 @@ def main(main_args=None):
                                   population_size, genome_size, output_location)
             os.system(f"{args.path_to_slim} {filename}")
 
-        os.system(f'mkdir big_scripts/{args.stats_directory}')
         for k in range(len(filenames)):
             stats_output_location = f"big_scripts/{args.stats_directory}/{filenames[k]}.csv"
             create_statistics_csv_from_file(vcf_files[k], args.size, stats_output_location, bs_ranges[k][0], bs_ranges[k][1])
