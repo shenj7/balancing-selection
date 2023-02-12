@@ -145,7 +145,7 @@ def command_line_parser(main_args):
                         help="Output directory for stats csv")
     parser.add_argument('-ps',
                         '--path_to_slim',
-                        default='/work/williarj/2223balancing_selection/slimexe',
+                        default='/work/williarj/2223_balancing_selection/slimexe',
                         help="Path to slim executable")
 
     args = parser.parse_args(main_args)
@@ -175,9 +175,9 @@ def main(main_args=None):
         filenames = []
         vcf_files = []
         bs_ranges = []
+        os.system(f"mkdir big_scripts/{args.directory[i]}")
+        os.system(f"mkdir big_scripts/{args.directory[i]}/outputs")
         for _ in range(args.number_of_scripts[i]):
-            os.system(f"mkdir big_scripts/{args.directory[i]}")
-            os.system(f"mkdir big_scripts/{args.directory[i]}/outputs")
             mutation_rate = random.uniform(args.minimum_mutation_rate[i],
                                            args.maximum_mutation_rate[i])
             recombination_rate = random.uniform(args.minimum_recombination_rate[i],
