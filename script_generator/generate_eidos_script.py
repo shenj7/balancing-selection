@@ -1,7 +1,7 @@
-from script_initializer import initialize_script
-from script_add_population import add_population
-from script_output import finish_simulation
-from script_mutation_effect import add_mutation_effect
+from script_generator import initialize_script
+from script_generator import add_population
+from script_generator import finish_simulation
+from script_generator import add_mutation_effect
 
 
 def generate_eidos_script(filename, seed, mutation_rate, recombination_rate, selection_coefficient, dominance_coefficient,
@@ -18,7 +18,7 @@ def generate_eidos_script(filename, seed, mutation_rate, recombination_rate, sel
     popname = "p1"
     mut1 = "m1"
     mut2 = "m2"
-    with open(f"../scripts/{filename}", "w+") as script:
+    with open(f"./{filename}", "w+") as script:
         script.write(initialize_script(seed, mutation_rate,
                                        recombination_rate, selection_coefficient, dominance_coefficient,
                                        left_limit, right_limit, genome_size))
