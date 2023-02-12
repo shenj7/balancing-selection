@@ -195,11 +195,11 @@ def main(main_args=None):
                                          args.maximum_right_limit[i])
             genome_size = random.randint(args.minimum_genome_size[i],
                                          args.maximum_genome_size[i])
-            filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"  # TODO
+            filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.date.today()}"  # TODO
             filenames.append(filename)
             bs_ranges.append([left_limit, right_limit])
             output_location = f"big_scripts/{args.directory[i]}/outputs/{filename}.vcf"
-            filename = f"big_scripts/{args.directory[i]}/{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.datetime.now()}"
+            filename = f"big_scripts/{args.directory[i]}/{filename}"
             vcf_files.append(output_location)
             generate_eidos_script(filename, seed, mutation_rate,
                                   recombination_rate, selection_coefficient, dominance_coefficient,
