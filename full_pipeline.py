@@ -152,6 +152,10 @@ def command_line_parser(main_args):
     return args
 
 
+def slim_thread(pts, filename):
+    os.system(f"{pts} {filename}")
+
+
 def main(main_args=None):
     """
     Generates a folder with multiple runs with the following structure:
@@ -205,7 +209,17 @@ def main(main_args=None):
                                   recombination_rate, selection_coefficient, dominance_coefficient,
                                   left_limit, right_limit,
                                   population_size, genome_size, output_location)
-            os.system(f"{args.path_to_slim} {filename}")
+
+        threads = []
+
+        for filename in filenames:
+            fn = f"big_scripts/{args.directory[i]}/{filename}"
+            thread = threading.Thread(target=slim_thread, args=(args.path_to_slim, fn))
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
 
         for k in range(len(filenames)):
             stats_output_location = f"big_scripts/{args.stats_directory}/{filenames[k]}.csv"
