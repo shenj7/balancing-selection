@@ -36,7 +36,6 @@ def command_line_parser(main_args):
     parser.add_argument('-s',
                         '--seed',
                         default='0',
-                        nargs="+",
                         help="Random seed for Eidos script")
     parser.add_argument('-cl',
                         '--minimum-selection_coefficient',
@@ -172,7 +171,7 @@ def main(main_args=None):
     # file output for results from simulations will be in args.directory/<guid>
     # quick thought: is a guid ok, or should we make smth more descriptive such as seed.mutation_rate.~~
     os.system(f"mkdir big_scripts")
-
+    os.system(f"mkdir big_scripts/{args.stats_directory}")
     random.seed(args.seed)
     for i, directory in enumerate(args.directory):
         filenames = []
@@ -180,7 +179,6 @@ def main(main_args=None):
         bs_ranges = []
         os.system(f"mkdir big_scripts/{directory}")
         os.system(f"mkdir big_scripts/{directory}/outputs")
-        os.system(f'mkdir big_scripts/{args.stats_directory}')
         for _ in range(args.number_of_scripts[i]):
             mutation_rate = random.uniform(args.minimum_mutation_rate[i],
                                            args.maximum_mutation_rate[i])
