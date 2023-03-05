@@ -5,6 +5,7 @@ import os
 import random
 import sys
 import threading
+import time
 
 from script_generator import generate_eidos_script
 from summary_statistic_calculator import create_statistics_csv_from_file
@@ -214,6 +215,7 @@ def main(main_args=None):
             fn = f"big_scripts/{directory}/{filename}"
             thread = threading.Thread(target=slim_thread, args=(args.path_to_slim, fn))
             threads.append(thread)
+            time.sleep(1)
             thread.start()
 
         for thread in threads:
