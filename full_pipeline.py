@@ -1,9 +1,11 @@
+import math
 from argparse import ArgumentParser
 import datetime
 import os
 import random
 import sys
 import threading
+import time
 
 from script_generator import generate_eidos_script
 from summary_statistic_calculator import create_statistics_csv_from_file
@@ -35,7 +37,6 @@ def command_line_parser(main_args):
     parser.add_argument('-s',
                         '--seed',
                         default='0',
-                        nargs="+",
                         help="Random seed for Eidos script")
     parser.add_argument('-cl',
                         '--minimum-selection_coefficient',
@@ -171,17 +172,14 @@ def main(main_args=None):
     # file output for results from simulations will be in args.directory/<guid>
     # quick thought: is a guid ok, or should we make smth more descriptive such as seed.mutation_rate.~~
     os.system(f"mkdir big_scripts")
-
-
-
-    for i, seed in enumerate(args.seed):
-        random.seed(seed)
+    os.system(f"mkdir big_scripts/{args.stats_directory}")
+    random.seed(args.seed)
+    for i, directory in enumerate(args.directory):
         filenames = []
         vcf_files = []
         bs_ranges = []
-        os.system(f"mkdir big_scripts/{args.directory[i]}")
-        os.system(f"mkdir big_scripts/{args.directory[i]}/outputs")
-        os.system(f'mkdir big_scripts/{args.stats_directory}')
+        os.system(f"mkdir big_scripts/{directory}")
+        os.system(f"mkdir big_scripts/{directory}/outputs")
         for _ in range(args.number_of_scripts[i]):
             mutation_rate = random.uniform(args.minimum_mutation_rate[i],
                                            args.maximum_mutation_rate[i])
@@ -199,11 +197,12 @@ def main(main_args=None):
                                          args.maximum_right_limit[i])
             genome_size = random.randint(args.minimum_genome_size[i],
                                          args.maximum_genome_size[i])
+            seed = random.randint(0, 0xffffffff)
             filename = f"{seed}_{mutation_rate}_{recombination_rate}_{population_size}_{datetime.date.today()}"  # TODO
             filenames.append(filename)
             bs_ranges.append([left_limit, right_limit])
-            output_location = f"big_scripts/{args.directory[i]}/outputs/{filename}.vcf"
-            filename = f"big_scripts/{args.directory[i]}/{filename}"
+            output_location = f"big_scripts/{directory}/outputs/{filename}.vcf"
+            filename = f"big_scripts/{directory}/{filename}"
             vcf_files.append(output_location)
             generate_eidos_script(filename, seed, mutation_rate,
                                   recombination_rate, selection_coefficient, dominance_coefficient,
@@ -213,9 +212,10 @@ def main(main_args=None):
         threads = []
 
         for filename in filenames:
-            fn = f"big_scripts/{args.directory[i]}/{filename}"
+            fn = f"big_scripts/{directory}/{filename}"
             thread = threading.Thread(target=slim_thread, args=(args.path_to_slim, fn))
             threads.append(thread)
+            time.sleep(1)
             thread.start()
 
         for thread in threads:
