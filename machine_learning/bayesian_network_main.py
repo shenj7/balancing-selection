@@ -1,10 +1,11 @@
-from pgmpy.models import BayesianModel
-# from pgmpy.factors.continuous.LinearGaussianCPD import LinearGaussianCPD
+from pgmpy.models.BayesianModel import BayesianModel
 import sys
 from machine_learning_model_generator import create_machine_learning_model
+from machine_learning_model_generator import create_machine_learning_model_discretized
 from machine_learning_model_generator import create_frame
 from machine_learning_command_line_parser import command_line_parser
 from pgmpy.inference.ExactInference import VariableElimination
+import numpy as np
 
 
 class MyBayesianModel:
@@ -23,7 +24,7 @@ class MyBayesianModel:
             evidence = {'Pi': row['Pi'], 'watterson_theta': row['watterson_theta'], 'tajima_d': row['tajima_d'], 'h1': row['h1'], 'h12': row['h12'], 'h123': row['h123'], 'h2_h1': row['h2_h1']}
             inference = model_infer.map_query(['bsb'], evidence=evidence)
             pred.append(inference['bsb'])
-        return pred
+        return np.asarray(pred)
 
 
 def create_bayesian_network(dir):
@@ -45,7 +46,6 @@ def create_bayesian_network(dir):
 
     # bs_model.add_cpds(pi_cpd, tw_cpd, dcpd, h1cpd, h12cpd, h123cpd, h2_h1cpd, bscpd)
 
-
     return bs_model
 
 
@@ -54,7 +54,7 @@ def main(main_args=None):
 
     bn = create_bayesian_network(args.directory)
 
-    create_machine_learning_model(args.directory, bn, './generated_bayesian_networks/bn1.pkl', './generated_bayesian_networks/bn1.csv')
+    create_machine_learning_model_discretized(args.directory, bn, './generated_bayesian_networks/bn1.pkl', './generated_bayesian_networks/bn1.csv')
 
     # randomized_grid_search()
 
