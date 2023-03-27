@@ -46,31 +46,27 @@ def find_TN(true, pred):
     return sum((true == 0) & (pred == 0))
 
 
-def calculate_accuracy(model, features_test, target_test):
-    pred_test = model.predict(features_test)
+def calculate_accuracy(model, pred_test, target_test):
     accuracy = (find_TP(target_test, pred_test) + find_TN(target_test, pred_test))/(find_TP(target_test, pred_test) + find_TN(target_test, pred_test) + find_FP(target_test, pred_test) + find_FN(target_test, pred_test))
     return accuracy
 
 
-def calculate_precision(model, features_test, target_test):
-    pred_test = model.predict(features_test)
+def calculate_precision(model, pred_test, target_test):
     precision = find_TP(target_test, pred_test)/(find_TP(target_test, pred_test) + find_FP(target_test, pred_test))
     return precision
 
 
-def calculate_recall(model, features_test, target_test):
-    pred_test = model.predict(features_test)
+def calculate_recall(model, pred_test, target_test):
     recall = find_TP(target_test, pred_test)/(find_TP(target_test, pred_test) + find_FN(target_test, pred_test))
     return recall
 
 
-def calculate_f1(model, features_test, target_test):
-    f1 = (2 * (calculate_precision(model, features_test, target_test) * calculate_recall(model, features_test, target_test))) / (calculate_precision(model, features_test, target_test) + calculate_recall(model, features_test, target_test))
+def calculate_f1(model, pred_test, target_test):
+    f1 = (2 * (calculate_precision(model, pred_test, target_test) * calculate_recall(model, pred_test, target_test))) / (calculate_precision(model, pred_test, target_test) + calculate_recall(model, pred_test, target_test))
     return f1
 
 
-def create_test_output(model, features_test, target_test, test_output):
-    pred_test = model.predict(features_test)
+def create_test_output(model, features_test, target_test, pred_test, test_output):
     features_test['bsb_true'] = target_test
     features_test['bsb_predicted'] = pred_test
 
@@ -86,12 +82,14 @@ def create_machine_learning_model(dir, model, output_name, test_output):
 
     model.fit(features_train, target_train)
 
-    print('Accuracy:', calculate_accuracy(model, features_test, target_test))
-    print('Precision:', calculate_precision(model, features_test, target_test))
-    print('Recall:', calculate_recall(model, features_test, target_test))
-    print('F1:', calculate_f1(model, features_test, target_test))
+    pred_test = model.predict(features_test)
 
-    create_test_output(model, features_test, target_test, test_output)
+    print('Accuracy:', calculate_accuracy(model, pred_test, target_test))
+    print('Precision:', calculate_precision(model, pred_test, target_test))
+    print('Recall:', calculate_recall(model, pred_test, target_test))
+    print('F1:', calculate_f1(model, pred_test, target_test))
+
+    create_test_output(model, features_test, target_test, pred_test, test_output)
 
     joblib.dump(model, output_name)
 
@@ -129,11 +127,13 @@ def create_machine_learning_model_discretized(dir, model, output_name, test_outp
 
     model.fit(features_train, target_train)
 
-    print('Accuracy:', calculate_accuracy(model, features_test, target_test))
-    print('Precision:', calculate_precision(model, features_test, target_test))
-    print('Recall:', calculate_recall(model, features_test, target_test))
-    print('F1:', calculate_f1(model, features_test, target_test))
+    pred_test = model.predict(features_test)
 
-    create_test_output(model, features_test, target_test, test_output)
+    print('Accuracy:', calculate_accuracy(model, pred_test, target_test))
+    print('Precision:', calculate_precision(model, pred_test, target_test))
+    print('Recall:', calculate_recall(model, pred_test, target_test))
+    print('F1:', calculate_f1(model, pred_test, target_test))
+
+    create_test_output(model, features_test, target_test, pred_test, test_output)
 
     joblib.dump(model, output_name)

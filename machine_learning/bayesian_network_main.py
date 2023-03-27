@@ -1,4 +1,4 @@
-from pgmpy.models.BayesianModel import BayesianModel
+from pgmpy.models.BayesianNetwork import BayesianNetwork
 import sys
 from machine_learning_model_generator import create_machine_learning_model
 from machine_learning_model_generator import create_machine_learning_model_discretized
@@ -30,21 +30,11 @@ class MyBayesianModel:
 def create_bayesian_network(dir):
     df = create_frame(dir)
 
-    bs_model = BayesianModel([('Pi', 'tajima_d'), ('watterson_theta', 'tajima_d'),
+    bs_model = BayesianNetwork([('Pi', 'tajima_d'), ('watterson_theta', 'tajima_d'),
                               ('h1', 'h12'), ('h1', 'h123'), ('h1', 'h2_h1'), ('h12', 'h123'), ('h12', 'h2_h1'),
                               ('tajima_d', 'bsb'), ('h123', 'bsb'), ('h2_h1', 'bsb')])
 
     bs_model = MyBayesianModel(bs_model)
-    # pi_cpd = LinearGaussianCPD('Pi', evidence_mean=df.mean()['Pi'], evidence_variance=df.mean()['Pi'])
-    # tw_cpd = LinearGaussianCPD('TW', evidence_mean=df.mean()['watterson_theta'], evidence_variance=df.mean()['watterson_theta'])
-    # dcpd = LinearGaussianCPD('D', evidence_mean=[df.mean()['tajima_d'], df.mean()['Pi'], df.mean()['watterson_theta']], evidence_variance=df.var()['tajima_d'], evidence=['Pi', 'TW'])
-    # h1cpd = LinearGaussianCPD('H1', evidence_mean=df.mean()['h1'], evidence_variance=df.var()['h1'])
-    # h12cpd = LinearGaussianCPD('H2', evidence_mean=[df.mean()['h2'], df.mean()['h1']], evidence_variance=df.var()['h2'], evidence=['H1'])
-    # h123cpd = LinearGaussianCPD('H123', evidence_mean=[df.mean()['h123'], df.mean()['h1'], df.mean()['h12']], evidence_variance=df.var()['h123'], evidence=['H1', 'H12'])
-    # h2_h1cpd = LinearGaussianCPD('H2_H1', evidence_mean=[df.mean()['h2_h1'], df.mean()['h1'], df.mean()['h12']], evidence_variance=df.var()['h2_h1'], evidence=['H1', 'H12'])
-    # bscpd = LinearGaussianCPD('BS', evidence_mean=[df.mean()['bsb'], df.mean()['tajima_d'], df.mean()['h123'], df.mean()['h2_h1']], evidence_variance=df.var()['bsb'], evidence=['D', 'H123', 'H2_H1'])
-
-    # bs_model.add_cpds(pi_cpd, tw_cpd, dcpd, h1cpd, h12cpd, h123cpd, h2_h1cpd, bscpd)
 
     return bs_model
 
