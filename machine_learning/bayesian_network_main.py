@@ -17,6 +17,7 @@ class MyBayesianModel:
         self.bs_model.fit(features.reset_index())
 
     def predict(self, features):
+        """
         features = features.reset_index()
         model_infer = VariableElimination(self.bs_model)
         pred = []
@@ -25,6 +26,8 @@ class MyBayesianModel:
             inference = model_infer.map_query(['bsb'], evidence=evidence)
             pred.append(inference['bsb'])
         return np.asarray(pred)
+        """
+        return self.bs_model.predict(features)
 
 
 def create_bayesian_network(dir):

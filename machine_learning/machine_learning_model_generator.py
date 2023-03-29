@@ -16,6 +16,7 @@ def create_frame(dir):
         else:
             summary = pd.concat([summary, df], ignore_index=True)
     summary = summary.drop(['Unnamed: 0'], axis=1)
+    print(summary.shape)
     return summary.dropna()
 
 
@@ -75,6 +76,7 @@ def create_test_output(model, features_test, target_test, pred_test, test_output
 
 def create_machine_learning_model(dir, model, output_name, test_output):
     df = create_frame(dir)
+    print(df.shape)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
     target = df['bsb']
     bin_data(features)
@@ -95,19 +97,19 @@ def create_machine_learning_model(dir, model, output_name, test_output):
 
 
 def bin_data(features):
-    pi, pi_bins = pd.qcut(features['Pi'], 5, retbins=True, labels=False)
+    pi, pi_bins = pd.qcut(features['Pi'], 7, retbins=True, labels=False)
     features['Pi'] = pi
-    watterson_theta, watterson_theta_bins = pd.qcut(features['watterson_theta'], 5, retbins=True, labels=False)
+    watterson_theta, watterson_theta_bins = pd.qcut(features['watterson_theta'], 7, retbins=True, labels=False)
     features['watterson_theta'] = watterson_theta
-    tajima_d, tajima_d_bins = pd.qcut(features['tajima_d'], 5, retbins=True, labels=False)
+    tajima_d, tajima_d_bins = pd.qcut(features['tajima_d'], 7, retbins=True, labels=False)
     features['tajima_d'] = tajima_d
-    h1, h1_bins = pd.qcut(features['h1'], 5, retbins=True, labels=False)
+    h1, h1_bins = pd.qcut(features['h1'], 7, retbins=True, labels=False)
     features['h1'] = h1
-    h12, h12_bins = pd.qcut(features['h12'], 5, retbins=True, labels=False)
+    h12, h12_bins = pd.qcut(features['h12'], 7, retbins=True, labels=False)
     features['h12'] = h12
-    h123, h123_bins = pd.qcut(features['h123'], 5, retbins=True, labels=False)
+    h123, h123_bins = pd.qcut(features['h123'], 7, retbins=True, labels=False)
     features['h123'] = h123
-    h2_h1, h2_h1_bins = pd.qcut(features['h2_h1'], 5, retbins=True, labels=False)
+    h2_h1, h2_h1_bins = pd.qcut(features['h2_h1'], 7, retbins=True, labels=False)
     features['h2_h1'] = h2_h1
     return features, pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins
 
