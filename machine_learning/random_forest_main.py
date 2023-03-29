@@ -6,18 +6,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 def calculate_forest_feature_importance(forest):
-    feature_names = ['Pi', 'watterson_theta', 'tajima_d', 'h1', 'h12', 'h123', 'h2_h1']
+    feature_names = ['\u03C0', '\u03B8_w', 'D', 'H1', 'H12', 'H123', 'H2\H1']
     importances = forest.feature_importances_
     std = np.std([tree.feature_importances_ for tree in forest.estimators_], axis=0)
     forest_importances = pd.Series(importances, index=feature_names)
-    fig, ax = plt.subplots()
-    forest_importances.plot.bar(yerr=std, ax=ax)
-    ax.set_title("Feature importances using MDI")
-    ax.set_ylabel("Mean decrease in impurity")
+    fig, ax = plt.subplots(figsize=(3.2, 4.8))
+    forest_importances.plot.barh(yerr=std, ax=ax)
+    ax.set_title("Feature importances using MDI", fontdict={'size': 24})
+    ax.set_xlabel("Mean decrease in impurity", fontdict={'size': 20})
     fig.tight_layout()
-    plt.show()
+    #plt.show()
+    plt.savefig('feature_importance.png')
 
 
 def main(main_args=None):
