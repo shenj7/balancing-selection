@@ -4,4 +4,7 @@ summary_statistics_csv_files/
 runs/
 generated_forests/
 generated_naive_bayes/
+generated_bayesian_networks/
+sum_stats/
+sum_stats_test/
 .idea/

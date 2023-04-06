@@ -47,7 +47,7 @@ def main(main_args=None):
 
     bn = create_bayesian_network(args.directory)
 
-    create_machine_learning_model_discretized(args.directory, bn, './generated_bayesian_networks/bn1.pkl', './generated_bayesian_networks/bn1.csv')
+    create_machine_learning_model_discretized(args.directory, bn, './generated_bayesian_networks/bn1.pkl', './generated_bayesian_networks/bn1.csv', './generated_bayesian_networks/bn1_roc.png')
 
     # randomized_grid_search()
 

@@ -1,7 +1,9 @@
 import pandas as pd
 from pathlib import Path as pt
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_curve
 import joblib
+import matplotlib.pyplot as plt
 
 
 def create_frame(dir):
@@ -74,7 +76,19 @@ def create_test_output(model, features_test, target_test, pred_test, test_output
     features_test.to_csv(test_output)
 
 
-def create_machine_learning_model(dir, model, output_name, test_output):
+def plot_roc_curve(pred_test, target_test, roc_output):
+    fpr, tpr, thresholds = roc_curve(target_test, pred_test)
+    fig, ax = plt.subplots()
+    plt.plot(fpr, tpr)
+    ax.set_title("ROC Curve", fontdict={'size': 24})
+    ax.set_xlabel("False Positive Rate", fontdict={'size': 20})
+    ax.set_ylabel("True Positive Rate", fontdict={'size': 20})
+    fig.tight_layout()
+    # plt.show()
+    plt.savefig(roc_output)
+
+
+def create_machine_learning_model(dir, model, output_name, test_output, roc_output):
     df = create_frame(dir)
     print(df.shape)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
@@ -90,6 +104,8 @@ def create_machine_learning_model(dir, model, output_name, test_output):
     print('Precision:', calculate_precision(model, pred_test, target_test))
     print('Recall:', calculate_recall(model, pred_test, target_test))
     print('F1:', calculate_f1(model, pred_test, target_test))
+
+    plot_roc_curve(pred_test, target_test, roc_output)
 
     create_test_output(model, features_test, target_test, pred_test, test_output)
 
@@ -114,7 +130,7 @@ def bin_data(features):
     return features, pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins
 
 
-def create_machine_learning_model_discretized(dir, model, output_name, test_output):
+def create_machine_learning_model_discretized(dir, model, output_name, test_output, roc_output):
     df = create_frame(dir)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
 
@@ -135,6 +151,8 @@ def create_machine_learning_model_discretized(dir, model, output_name, test_outp
     print('Precision:', calculate_precision(model, pred_test, target_test))
     print('Recall:', calculate_recall(model, pred_test, target_test))
     print('F1:', calculate_f1(model, pred_test, target_test))
+
+    plot_roc_curve(pred_test, target_test, roc_output)
 
     create_test_output(model, features_test, target_test, pred_test, test_output)
 
