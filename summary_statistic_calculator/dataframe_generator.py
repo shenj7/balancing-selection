@@ -1,5 +1,5 @@
 import pandas as pd
-from summary_statistic_calculator import calculations as calc
+import calculations as calc
 import os
 
 
@@ -23,18 +23,18 @@ def create_statistics_data_frame(vcf_dict, windowSize, balancing_left, balancing
     balancing_selection = calc.calculate_balancing_selection(windows, balancing_left, balancing_right)
     balancing_selection_binary = calc.calculate_balancing_selection_binary(windows, balancing_left, balancing_right)
 
-    d = { 
-          'Pi': pi, 
-          'watterson_theta': theta_hat_w, 
-          'tajima_d': D, 
-          'h1': h1, 
-          'h12': h12, 
-          'h123': h123, 
-          'h2_h1': h2_h1, 
-          'bs': balancing_selection, 
+    d = {
+          'Pi': pi,
+          'watterson_theta': theta_hat_w,
+          'tajima_d': D,
+          'h1': h1,
+          'h12': h12,
+          'h123': h123,
+          'h2_h1': h2_h1,
+          'bs': balancing_selection,
           'bsb': balancing_selection_binary,
-          'left_window': windowsl, 
-          'right_window': windowsr 
+          'left_window': windowsl,
+          'right_window': windowsr
           }
 
     df = pd.DataFrame(data=d)

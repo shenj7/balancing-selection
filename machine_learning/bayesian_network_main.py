@@ -17,8 +17,7 @@ class MyBayesianModel:
         self.bs_model.fit(features.reset_index())
 
     def predict(self, features):
-        """
-        features = features.reset_index()
+        features = features.reset_index().drop(columns=['index'])
         model_infer = VariableElimination(self.bs_model)
         pred = []
         for index, row in features.iterrows():
@@ -26,8 +25,7 @@ class MyBayesianModel:
             inference = model_infer.map_query(['bsb'], evidence=evidence)
             pred.append(inference['bsb'])
         return np.asarray(pred)
-        """
-        return self.bs_model.predict(features)
+        #return self.bs_model.predict(features)['bsb']
 
 
 def create_bayesian_network(dir):
@@ -47,7 +45,7 @@ def main(main_args=None):
 
     bn = create_bayesian_network(args.directory)
 
-    create_machine_learning_model_discretized(args.directory, bn, './generated_bayesian_networks/bn1.pkl', './generated_bayesian_networks/bn1.csv', './generated_bayesian_networks/bn1_roc.png', './generated_bayesian_networks/bn1_bins.csv')
+    create_machine_learning_model_discretized(args.directory, bn, './generated_bayesian_networks/bn1.pkl', './generated_bayesian_networks/bn1.csv', './generated_bayesian_networks/bn1_roc.png', './generated_bayesian_networks/bn1_bins.csv', 11)
 
     # randomized_grid_search()
 

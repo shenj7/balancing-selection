@@ -18,7 +18,6 @@ def create_frame(dir):
         else:
             summary = pd.concat([summary, df], ignore_index=True)
     summary = summary.drop(['Unnamed: 0'], axis=1)
-    print(summary.shape)
     return summary.dropna()
 
 
@@ -93,7 +92,6 @@ def create_machine_learning_model(dir, model, output_name, test_output, roc_outp
     print(df.shape)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
     target = df['bsb']
-    bin_data(features)
     features_train, features_test, target_train, target_test = create_train_and_test_data(features, target, 1)
 
     model.fit(features_train, target_train)
@@ -112,20 +110,20 @@ def create_machine_learning_model(dir, model, output_name, test_output, roc_outp
     joblib.dump(model, output_name)
 
 
-def bin_data(features):
-    pi, pi_bins = pd.qcut(features['Pi'], 7, retbins=True, labels=False)
+def bin_data(features, num_bins):
+    pi, pi_bins = pd.qcut(features['Pi'], num_bins, retbins=True, labels=False, duplicates='drop')
     features['Pi'] = pi
-    watterson_theta, watterson_theta_bins = pd.qcut(features['watterson_theta'], 7, retbins=True, labels=False)
+    watterson_theta, watterson_theta_bins = pd.qcut(features['watterson_theta'], num_bins, retbins=True, labels=False, duplicates='drop')
     features['watterson_theta'] = watterson_theta
-    tajima_d, tajima_d_bins = pd.qcut(features['tajima_d'], 7, retbins=True, labels=False)
+    tajima_d, tajima_d_bins = pd.qcut(features['tajima_d'], num_bins, retbins=True, labels=False, duplicates='drop')
     features['tajima_d'] = tajima_d
-    h1, h1_bins = pd.qcut(features['h1'], 7, retbins=True, labels=False)
+    h1, h1_bins = pd.qcut(features['h1'], num_bins, retbins=True, labels=False, duplicates='drop')
     features['h1'] = h1
-    h12, h12_bins = pd.qcut(features['h12'], 7, retbins=True, labels=False)
+    h12, h12_bins = pd.qcut(features['h12'], num_bins, retbins=True, labels=False, duplicates='drop')
     features['h12'] = h12
-    h123, h123_bins = pd.qcut(features['h123'], 7, retbins=True, labels=False)
+    h123, h123_bins = pd.qcut(features['h123'], num_bins, retbins=True, labels=False, duplicates='drop')
     features['h123'] = h123
-    h2_h1, h2_h1_bins = pd.qcut(features['h2_h1'], 7, retbins=True, labels=False)
+    h2_h1, h2_h1_bins = pd.qcut(features['h2_h1'], num_bins, retbins=True, labels=False, duplicates='drop')
     features['h2_h1'] = h2_h1
     return features, pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins
 
@@ -140,17 +138,15 @@ def save_bins(pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h
     df['h2_h1'] = h2_h1_bins
     df.to_csv(bin_output)
 
-def create_machine_learning_model_discretized(dir, model, output_name, test_output, roc_output, bin_output):
+def create_machine_learning_model_discretized(dir, model, output_name, test_output, roc_output, bin_output, num_bins):
     df = create_frame(dir)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
 
-    binned, pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins = bin_data(features)
+    binned, pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins = bin_data(features, num_bins)
     save_bins(pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins, bin_output)
     features = binned
 
     target = df['bsb']
-
-    print(target.shape)
 
     features_train, features_test, target_train, target_test = create_train_and_test_data(features, target, 1)
 
