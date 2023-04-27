@@ -129,12 +129,23 @@ def bin_data(features):
     features['h2_h1'] = h2_h1
     return features, pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins
 
+def save_bins(pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins, bin_output):
+    df = pd.DataFrame()
+    df['pi'] = pi_bins
+    df['watterson_theta'] = watterson_theta_bins
+    df['tajima_d'] = tajima_d_bins
+    df['h1'] = h1_bins
+    df['h12'] = h12_bins
+    df['h123'] = h123_bins
+    df['h2_h1'] = h2_h1_bins
+    df.to_csv(bin_output)
 
-def create_machine_learning_model_discretized(dir, model, output_name, test_output, roc_output):
+def create_machine_learning_model_discretized(dir, model, output_name, test_output, roc_output, bin_output):
     df = create_frame(dir)
     features = df.drop(['bs', 'bsb', 'left_window', 'right_window'], axis=1)
 
     binned, pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins = bin_data(features)
+    save_bins(pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins, bin_output)
     features = binned
 
     target = df['bsb']
