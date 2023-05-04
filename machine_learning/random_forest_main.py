@@ -28,6 +28,7 @@ def main(main_args=None):
     forest = rf()
 
     create_machine_learning_model(args.directory, forest, './generated_forests/forest1.pkl', './generated_forests/forest1.csv', './generated_forests/forest1_roc.png')
+    joblib.dump(forest, './generated_forests/forest1.pkl')
     calculate_forest_feature_importance(forest)
 
 

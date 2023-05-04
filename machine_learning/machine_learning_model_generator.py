@@ -130,13 +130,31 @@ def bin_data(features, num_bins):
 def save_bins(pi_bins, watterson_theta_bins, tajima_d_bins, h1_bins, h12_bins, h123_bins, h2_h1_bins, bin_output):
     df = pd.DataFrame()
     df['pi'] = pi_bins
+    df.to_csv(bin_output + 'pi_bins.csv')
+
+    df = pd.DataFrame()
     df['watterson_theta'] = watterson_theta_bins
+    df.to_csv(bin_output + 'watterson_theta_bins.csv')
+
+    df = pd.DataFrame()
     df['tajima_d'] = tajima_d_bins
+    df.to_csv(bin_output + 'tajima_d_bins.csv')
+
+    df = pd.DataFrame()
     df['h1'] = h1_bins
+    df.to_csv(bin_output + 'h1_bins.csv')
+
+    df = pd.DataFrame()
     df['h12'] = h12_bins
+    df.to_csv(bin_output + 'h12_bins.csv')
+
+    df = pd.DataFrame()
     df['h123'] = h123_bins
+    df.to_csv(bin_output + 'h123_bins.csv')
+
+    df = pd.DataFrame()
     df['h2_h1'] = h2_h1_bins
-    df.to_csv(bin_output)
+    df.to_csv(bin_output + 'h2_h1_bins.csv')
 
 def create_machine_learning_model_discretized(dir, model, output_name, test_output, roc_output, bin_output, num_bins):
     df = create_frame(dir)
@@ -163,4 +181,4 @@ def create_machine_learning_model_discretized(dir, model, output_name, test_outp
 
     create_test_output(model, features_test, target_test, pred_test, test_output)
 
-    joblib.dump(model, output_name)
+    #joblib.dump(model, output_name)
