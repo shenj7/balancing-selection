@@ -1,4 +1,5 @@
 # Population Generator Recent Frequency-Dependent Balancing Selection
+[Link to paper preprint] (https://drive.google.com/file/d/1VTEceLd4rznllYG8maG9gRnOZelp2DzX/view?usp=sharing)
 ## Overview
 This tool uses SLiM 3 (Haller, Messer 2019) to simulate populations undergoing recent frequency-dependent selection.
 
