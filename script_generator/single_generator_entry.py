@@ -69,7 +69,7 @@ def main(main_args=None):
     generate_eidos_script(args.filename, args.seed, args.mutation_rate,
                           args.recombination_rate, args.selection_coefficient, args.dominance_coefficient,
                           args.left_limit, args.right_limit,
-                          args.population_size, args.output_location)
+                          args.population_size, args.genome_size, args.output_location)
 
 
 if __name__ == '__main__':
